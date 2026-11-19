@@ -35,7 +35,14 @@ See [experiment plan §7](experiment_plan.md#7-kaggle-compatibility-and-resource
 
 ## Kaggle CPU notebook
 
-Import [the C-01 notebook](../notebooks/c01_kaggle_cpu_smoke.ipynb), set Accelerator to **None**, and fill in the checkout path, session limit and its source in the configuration cell. Record the execution mode and the Kaggle image version when available. The checkout must include the probe script. The notebook writes `/kaggle/working/results/manifest/environment.json` even when a provisioning, build or smoke step fails after configuration.
+Import [the C-01 notebook](../notebooks/c01_kaggle_cpu_smoke.ipynb), set Accelerator to **None**, and choose one project source in its configuration cell.
+
+- **Private Kaggle Dataset.** From an authorized local copy of the project, upload `scripts/kaggle_environment_smoke.py` to a private Kaggle Dataset, keeping the `scripts/` directory. Attach it with **Add Input**. Set `KAGGLE_DATASET_ROOT` to the mounted directory immediately above `scripts/`, as shown in the notebook's file pane. Leave `CHECKOUT` unset. The notebook can read the helper from the Dataset's read-only mount.
+- **Existing local checkout.** Set `CHECKOUT` to a checkout already available to the notebook and leave `KAGGLE_DATASET_ROOT` unset. If both are unset, the notebook looks in `/kaggle/working/SGBR-Reproduction`.
+
+Use the notebook and helper from the same project revision. A missing or unreadable helper stops initialization with the expected path and setup instructions. The source is independent of the later fetch of the authors' public MOA fork.
+
+Fill in the session limit and its source, the execution mode, and the Kaggle image version if available. The notebook writes `/kaggle/working/results/manifest/environment.json` even when a provisioning, build or smoke step fails after initialization.
 
 - **Online build.** Enable Internet. The notebook checks the published hashes for Temurin JDK 11.0.29+7 and Maven 3.9.11, fetches the exact upstream SHA, builds the `moa/` module with the authors' Maven goals and skip flags, and records the resulting jar SHA-256 and build JDK.
 - **Staged jar.** Attach the trusted fat jar from the pinned fork and provide its recorded SHA-256 and build JDK. Use the staged Temurin 11 archive or point to a verified installed JDK. The probe records Maven presence, but the staged jar does not require Maven. Build a jar with the JDK you plan to run, or verify the staged jar explicitly on that JDK.
