@@ -24,7 +24,7 @@ References: `docs/paper_spec.md` (spec; §11 = authors' code findings), `docs/ex
 
 | ID | Description | Agent | Depends on | Acceptance criteria | Status |
 |---|---|---|---|---|---|
-| C-01 | Kaggle environment probe: vCPU, RAM, disk, session limit, internet, Java/Maven presence; install JDK 8 (or the closest available) | Codex | H-01 | `results/manifest/environment.json`; Java version recorded | Ready (needs only H-01(a), approved) |
+| C-01 | Kaggle environment probe: vCPU, RAM, disk, session limit, internet, Java/Maven presence; install JDK 8 (or the closest available) | Codex | H-01 | `results/manifest/environment.json`; Java version recorded | **In progress**: audit + probe script merged (PR #1); not yet run on Kaggle; review in `docs/handoffs/C-01_review.md` §5 |
 | C-02 | Build the repo's `moa/` module at commit `f62f7b4` (README Maven command) → `moa.jar`; upload as Kaggle Dataset; run one `moa.DoTask` command from spec §11.1 (Sgb(Oza), Abalone, `-Z 1`) | Codex | C-01 | Final adjusted R̄² equals `exp/post_hoc_new/abalone_1/SGBT(Oza).csv` (0.47689) to ≤ 1e-6; command line logged | Blocked |
 | C-03 | Dataset packaging: copy the 13 repo datasets (unzip HyperA, DemandF, NZEnergy) into a private Kaggle Dataset; manifest with sha256, rows, attributes; add SUP\* if H-04 delivers | Codex | R-03, H-01 | `results/manifest/datasets.csv`; counts match spec §11.6 | Ready for the 13 repo datasets; SUP\* waits on H-04 |
 | C-04 | Bias–variance split files for FriedmanLea/Gra/Gsg (`_1…_10`, `_12`; 10 % scale): generate **only if** H-01 approves an [ADAPT] generator setting (River FriedmanDrift; parameters not in paper/repo) | Codex | H-01, Q-31 | Generator parameters and seeds documented and labelled [ADAPT] | Blocked |
@@ -110,6 +110,10 @@ Evidence: `docs/paper_spec.md` §10 (paper-only) and §11 (code). "Resolve via" 
 | Q-34 | **New.** Seed reaches only the outermost learner; inner learners share an RNG state (K-9). Also check run-to-run determinism | C-07 | Open — verify empirically |
 | Q-35 | **New.** MOA R̄² ≠ textbook Eq.U-8 (K-5). Report MOA's value as primary (comparable to paper) plus textbook value as secondary? | H-01 | **Decided**: reproduce as coded (H-01(b)) |
 | Q-36 | **New.** Baselines ignore nominal attributes (FIMTDD) while Sgbt-based models one-hot encode them (K-10), which may favour SGBR on DemandF/NZEnergy | R-08 | Open — discuss in report |
+| Q-37 | **New (C-01 review).** May per-process `-Xmx` go below the paper's 48g/12g for small datasets so parallel JVMs fit Kaggle RAM? (R̄² unaffected unless OOM; wall time may change) | Human | Open — needs decision |
+| Q-38 | **New (C-01 review).** If JDK 8 is unavailable, accept a newer JDK provided C-02 Abalone parity holds to 1e-6? (GC default differs → wall-time caveat) | Human | Open — needs decision |
+| Q-39 | **New (C-01 review).** Single runs that can't finish within a Kaggle session (MOA has no checkpointing; NZEnergy runs ≈ 6 h+ at paper speed): report as "not run – session limit", or allow a disclosed non-Kaggle machine? | Human, C-08 | Open — needs decision |
+| Q-40 | **New (C-01 review).** E3 stack: which CapyMOA and mlxtend versions accept the repo's MOA jar and reproduce `BVDecompose_Results_ailerons.csv`? (Proposed task C-01b) | Codex | Open |
 
 ## Decisions log
 
