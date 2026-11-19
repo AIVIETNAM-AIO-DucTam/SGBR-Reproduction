@@ -37,10 +37,11 @@ See [experiment plan §7](experiment_plan.md#7-kaggle-compatibility-and-resource
 
 Import [the C-01 notebook](../notebooks/c01_kaggle_cpu_smoke.ipynb), set Accelerator to **None**, and choose one project source in its configuration cell.
 
+- **Automatic private GitHub checkout.** Leave `CHECKOUT` and `KAGGLE_DATASET_ROOT` unset. Enable Kaggle Internet and grant the notebook access to the Kaggle Secret `GITHUB_TOKEN`. Use a fine-grained GitHub token scoped to `AIVIETNAM-AIO-DucTam/SGBR-Reproduction` with **Contents: Read**. Set `GITHUB_REF` to a branch name or a full 40-character SHA. The notebook creates a shallow checkout at `/kaggle/working/SGBR-Reproduction`. It reuses a matching clean checkout without reading the secret again. Set `GITHUB_REFRESH = True` to fetch the branch again. Use an explicit `CHECKOUT` if you intend to use local edits.
 - **Private Kaggle Dataset.** From an authorized local copy of the project, upload `scripts/kaggle_environment_smoke.py` to a private Kaggle Dataset, keeping the `scripts/` directory. Attach it with **Add Input**. Set `KAGGLE_DATASET_ROOT` to the mounted directory immediately above `scripts/`, as shown in the notebook's file pane. Leave `CHECKOUT` unset. The notebook can read the helper from the Dataset's read-only mount.
-- **Existing local checkout.** Set `CHECKOUT` to a checkout already available to the notebook and leave `KAGGLE_DATASET_ROOT` unset. If both are unset, the notebook looks in `/kaggle/working/SGBR-Reproduction`.
+- **Existing local checkout.** Set `CHECKOUT` to a checkout already available to the notebook and leave `KAGGLE_DATASET_ROOT` unset.
 
-Use the notebook and helper from the same project revision. A missing or unreadable helper stops initialization with the expected path and setup instructions. The source is independent of the later fetch of the authors' public MOA fork.
+Use the notebook and helper from the same project revision. A missing or unreadable helper stops initialization with the expected path and setup instructions. The authenticated project fetch uses a temporary Git askpass helper. The remote URL contains no credentials, and the notebook does not replay Git diagnostics from that fetch. The manifest records the resolved `project_git_commit` when Git metadata is available. The authors' public MOA revision is recorded separately; a Dataset without Git metadata has a null project SHA.
 
 Fill in the session limit and its source, the execution mode, and the Kaggle image version if available. The notebook writes `/kaggle/working/results/manifest/environment.json` even when a provisioning, build or smoke step fails after initialization.
 
