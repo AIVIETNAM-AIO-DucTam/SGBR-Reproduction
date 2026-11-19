@@ -28,32 +28,20 @@ Sources: [upstream README](https://github.com/nuwangunasekara/SGBR/blob/f62f7b4/
 | RAM and concurrency | The paper and `exp/exp_config.json` specify `-Xmx48g -Xms50m -Xss1g` for the main experiment. The other shipped configs use 12 GiB, and the paper reports that Sgb(Oza) fit in 12 GiB for E1. Reserve headroom for the JVM's native memory, thread stacks (up to 1 GiB per thread), the notebook kernel and the file cache. Determine the actual cgroup cap before scheduling any run. A smaller heap is neither proof of feasibility nor a change approved by this audit. |
 | CPU, wall time and disk | The experiment plan's estimates of ~4 vCPU, ~30 GB RAM, ~12 hours per session and ~20 GB working storage are planning figures. Live quotas can vary. Capture CPU affinity, cgroup quota and memory, free space and the applicable session limit. Allow for checkout, compressed and extracted data, the Maven cache, jars and per-run outputs. A filesystem's reported total can exceed Kaggle's output quota. |
 | Internet and offline use | Test GitHub, Maven Central and PyPI inside the notebook. A successful HTTPS request only verifies reachability at the sampled endpoint. A notebook with internet disabled needs staged, verified inputs, including the exact built jar and dataset archives. Use a writable workspace for builds and outputs. Kaggle Dataset inputs are normally read-only. |
-| Java and native libraries | Check the notebook's reported architecture, JDK availability and Maven's selected JVM. Try JDK 8 first. Document the closest available newer JDK if needed and test the unchanged jar under that JDK. Axgb still needs a targeted check of XGBoost's JNI loading, architecture and native library dependencies. A Java or SGBR smoke test cannot validate Axgb. |
+| Java and native libraries | Check the notebook's reported architecture, JDK availability and Maven's selected JVM. The pinned module failed to compile on JDK 8 because MEKA 1.9.7 contains Java 11 bytecode. The notebook defaults to JDK 11 and records the selected JVM and GC. Axgb still needs a targeted check of XGBoost's JNI loading, architecture and native library dependencies. A Java or SGBR smoke test cannot validate Axgb. |
 | Data availability | Upstream ships 13 of 16 streams. SUP2I, SUP3A and SUP3G require access from the authors. H-04 tracks that separately. |
 
 See [experiment plan §7](experiment_plan.md#7-kaggle-compatibility-and-resource-requirements) and [Kaggle notebook documentation](https://www.kaggle.com/docs/notebooks).
 
-## Proposed Kaggle smoke test
+## Kaggle CPU notebook
 
-1. In a Kaggle **CPU** notebook, put this checkout under `/kaggle/working` and run from its root. Record the session maximum for that notebook from the Kaggle UI or applicable documentation and cite the source. Check what `java -version`, `javac -version` and `mvn -version` report before provisioning tools.
-2. If needed, provision JDK 8 and Maven from trusted, verified artifacts. Set `JAVA_HOME` to the JDK directory and prepend its `bin` and Maven's `bin` to `PATH`. Use a verified newer JDK if 8 is unavailable and pass `--java-selection-note` with the reason and the version selected. In a notebook, set the environment for the same process or cell that runs the probe.
-3. Run the probe, replacing the shell variables with the session limit and source recorded in step 1.
+Import [the C-01 notebook](../notebooks/c01_kaggle_cpu_smoke.ipynb), set Accelerator to **None**, and fill in the checkout path, session limit and its source in the configuration cell. Record the execution mode and the Kaggle image version when available. The checkout must include the probe script. The notebook writes `/kaggle/working/results/manifest/environment.json` even when a provisioning, build or smoke step fails after configuration.
 
-   ```bash
-   python scripts/kaggle_environment_smoke.py \
-     --session-limit-hours "$SESSION_LIMIT_HOURS" \
-     --session-limit-source "$SESSION_LIMIT_SOURCE"
-   ```
+- **Online build.** Enable Internet. The notebook checks the published hashes for Temurin JDK 11.0.29+7 and Maven 3.9.11, fetches the exact upstream SHA, builds the `moa/` module with the authors' Maven goals and skip flags, and records the resulting jar SHA-256 and build JDK.
+- **Staged jar.** Attach the trusted fat jar from the pinned fork and provide its recorded SHA-256 and build JDK. Use the staged Temurin 11 archive or point to a verified installed JDK. The probe records Maven presence, but the staged jar does not require Maven. Build a jar with the JDK you plan to run, or verify the staged jar explicitly on that JDK.
+- **Evidence.** The probe records initial and selected tool versions, CPU model and sampled frequency, affinity, visible v1/v2 cgroup limits, the JVM's processor/heap view and GC flags, disk space, and GitHub/Maven Central/PyPI reachability. The smoke runs Sgb(Oza) with seed 1 and requires exactly eight processed instances in the MOA CSV. The 256 MiB heap applies only to this tiny environment check.
 
-   The probe writes `results/manifest/environment.json`. It checks Java compilation and a launch marker, records Maven and tool versions, measures available resources, and captures endpoint outcomes. It reports host memory separately from cgroup v2 limits. For a notebook with v1 or a nonstandard mount, record the effective CPU and memory limits separately using the session's resolved cgroup paths. Review Maven's Java version, connectivity and the working storage quota before accepting the manifest. Keep the manifest as notebook output and attach the Kaggle evidence for C-01 review.
-
-4. Once C-01 is accepted, C-02 owns the notebook build and Abalone parity check. The authors' build command, run from the pinned checkout's `moa/` directory, is:
-
-   ```bash
-   mvn clean install -DskipTests=true -Dmaven.javadoc.skip=true -Dlatex.skipBuild=true
-   ```
-
-   Expected artifact: `moa/target/moa-2023.04.1-SNAPSHOT-jar-with-dependencies.jar` relative to the upstream root.
+The notebook prints observed compatibility issues and saves them in the manifest. A staged jar can pass even when internet probes fail. Host memory and filesystem capacity do not establish a Kaggle session quota. The working-space quota and session limit should be reviewed against the Kaggle UI. C-02 covers Abalone parity separately.
 
 ## Executed checks
 
@@ -65,6 +53,12 @@ Checks in this section ran in Codex Cloud on 2026-11-19. Kaggle has not been pro
 - Built the pinned MOA module with the authors' Maven goals and skip flags under OpenJDK 21.0.13 and Maven 3.9.11. Direct Maven dependency resolution failed on DNS in Codex Cloud. A temporary Maven settings file routed Maven through the existing cloud proxy and the build returned `BUILD SUCCESS`. Maven produced a 95,095,593-byte fat jar with SHA-256 `3f6e10b091387df94dbd9a773f69c1499aa0b6dae77ba65a3cd1d35ad24cbaf7`. The checkout, including build outputs, occupied about 440 MiB, and the separate Maven cache occupied about 465 MiB.
 - Launched the resulting jar with OpenJDK 21, `-Xmx256m` and a 30-second timeout. `moa.DoTask` ran the Sgb(Oza) learner with seed 1 on a synthetic eight-row numeric ARFF. It exited successfully and its CSV had one row reporting eight processed instances. This check only exercised the CLI, learner construction and a tiny stream. It did not test Abalone parity, Axgb JNI, CapyMOA integration, JDK 8 or Kaggle execution.
 
+### Notebook validation in Codex Cloud
+
+- The pinned Maven build failed with Temurin 8u472. The module imports `meka.core.F`, whose MEKA 1.9.7 class has bytecode version 55 (Java 11). JDK 8 accepts class files through version 52.
+- The notebook's online build path verified the Temurin 11 and Maven downloads, fetched the exact upstream commit, built the MOA jar with Temurin 11.0.29+7 and Maven 3.9.11, and processed all eight rows. This local run used the cloud Maven proxy and an existing dependency cache.
+- The staged-jar path processed eight rows with the separately built Java 21 jar and Maven absent. An incorrect jar checksum failed and was recorded in its manifest. The live local cgroup v2 and a synthetic v1 fixture exercised resource detection.
+
 ## C-01 acceptance
 
-C-01 remains Ready in [the task list](tasks.md). Its acceptance evidence is a real Kaggle `results/manifest/environment.json` with the Java version recorded, along with the requested resource and connectivity observations. The local manifest was written under `/tmp` and is not Kaggle evidence. No reproduction experiments were run.
+C-01 remains In progress in [the task list](tasks.md). Its acceptance evidence is a real Kaggle `results/manifest/environment.json` with the Java version recorded, along with the requested resource and connectivity observations. Commit the manifest from the successful Kaggle run for review. Local validation manifests were written under `/tmp`. No reproduction experiments were run.
