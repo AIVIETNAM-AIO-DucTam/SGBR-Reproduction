@@ -1,8 +1,29 @@
 # E1 memory feasibility on Kaggle
 
-The [Kaggle CPU notebook](../notebooks/e1_memory_feasibility.ipynb) runs one E1 cell under `-Xmx16g`. The default is **NZEnergy × Sgb(Arf) × seed 1**, a large E1 cell with a published output of 3,100,666 evaluated instances. The authors reported about 2.06 hours for that run. Kaggle runtime is unknown. A successful run establishes feasibility for that cell under the recorded limits. The C-01 eight-row smoke test only checks that the toolchain runs.
+The Kaggle CPU notebooks run one E1 cell under `-Xmx16g`. The default is **NZEnergy × Sgb(Arf) × seed 1**, a large E1 cell with a published output of 3,100,666 evaluated instances. The authors reported about 2.06 hours for that run. Kaggle runtime is unknown. A successful run establishes feasibility for that cell under the recorded limits. The C-01 eight-row smoke test only checks that the toolchain runs.
 
-## Run
+## Integrated Kaggle workflow
+
+Use [SGBR_C01_E1_Integrated.ipynb](../notebooks/SGBR_C01_E1_Integrated.ipynb) for a fresh session. Import it into a **private** Kaggle notebook, set **Accelerator → None**, enable **Internet**, and grant the notebook access to the Kaggle Secret `GITHUB_TOKEN`. Use a fine-grained GitHub token with **Contents: Read** for this project. Run All with `GITHUB_REF = "main"` after merge, or select the feature branch or exact SHA during review. There is no jar or checksum to supply.
+
+The notebook records the project SHA, verifies the upstream commit, selects Java 11, and installs Maven if needed. It stores the fat jar and its verified SHA-256 under `/kaggle/working/results/artifacts/`. It checks the historical jar digest for comparison. A new build can have a different digest, so the C-01 smoke and E1 both use the bytes verified for the current run. A failed C-01 setup or smoke test prevents E1 from starting.
+
+The default is one NZEnergy × Sgb(Arf) × seed 1 cell with `-Xmx16g`. If set, `SESSION_LIMIT_HOURS` and `SESSION_LIMIT_SOURCE` let the notebook warn about time remaining. `TIMEOUT_SECONDS` is optional and has no default cap. Leave time to export results. The notebook prints timestamps and flushes one E1 progress line per minute by default.
+
+| Output under `/kaggle/working/results/` | Contents |
+| --- | --- |
+| `manifest/environment.json` | C-01 probes, toolchain versions, smoke result, source commits, and jar provenance |
+| `manifest/e1_memory_feasibility.json` | Status, elapsed time, peak memory, exit or signal, OOM evidence, latest MOA percentage, estimated rows, and evaluator-verified rows |
+| `manifest/e1_memory_feasibility.files/` | Raw Java log, evaluator CSV if written, and periodic `resource_monitor.jsonl` |
+| `artifacts/` | Verified jar, build metadata, and Maven build log |
+| `previous_runs/` | Earlier manifests and E1 log directories when rerunning in the same session |
+
+A manual interrupt or the runner timeout keeps the latest observations and records the stop. A hard Kaggle session kill can leave only the last periodic checkpoint. MOA learner state is not saved. Reruns start the stream from the beginning. Download the results directory or use **Save Version → Run All** to retain Kaggle outputs.
+
+## Standalone run
+
+Use the [standalone notebook](../notebooks/e1_memory_feasibility.ipynb) when you already have a verified jar and want to select a different E1 cell.
+
 
 1. Use a dedicated Kaggle CPU notebook with **Accelerator → None**. Set `PROJECT` to a checkout or Dataset containing `scripts/e1_memory_feasibility.py` and `scripts/kaggle_environment_smoke.py`.
 2. Stage the fat jar built from authors' commit `f62f7b437512e020f57c4bcd03884c4724eda5b1`, its recorded SHA-256 and the build JDK. From the pinned checkout's `moa/` directory, the build is `mvn clean install -DskipTests=true -Dmaven.javadoc.skip=true -Dlatex.skipBuild=true`. The artifact is `target/moa-2023.04.1-SNAPSHOT-jar-with-dependencies.jar`. Use the same JDK to run the jar. The [C-01 audit](kaggle_environment_audit.md) documents the verified JDK 11 build and the JDK 8 failure.
