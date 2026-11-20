@@ -252,6 +252,7 @@ def measure_java(manifest, result, work, groups, timeout, env, progress_interval
         result.update(status="running", java_pid=process.pid)
         pid = 0
         try:
+            save_manifest(manifest, result)
             while True:
                 pid, wait_status, usage = os.wait4(process.pid, os.WNOHANG)
                 if pid:
