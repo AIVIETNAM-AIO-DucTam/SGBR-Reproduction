@@ -1,0 +1,104 @@
+{
+  "status": "completed",
+  "environment": "kaggle",
+  "scope": "one full E1 cell",
+  "upstream_commit": "f62f7b437512e020f57c4bcd03884c4724eda5b1",
+  "project_git_commit": "60b1668ef7fa049aeb24eab5eae5a29d0358c659",
+  "dataset": {
+    "name": "NZEnergy",
+    "sha256": "73727bddb4773dc1c326a44eb589910529050c633f4f858c5c66f0407160f458",
+    "expected_instances": 3100666
+  },
+  "learner": "SGBT(ARFReg(FIRTDD))",
+  "seed": 1,
+  "java_max_heap_bytes": 17179869184,
+  "java_log": "e1_memory_feasibility.files/java.log",
+  "evaluation_csv": "e1_memory_feasibility.files/evaluation.csv",
+  "resource_monitor_log": "e1_memory_feasibility.files/resource_monitor.jsonl",
+  "latest_progress_percent": 99.98,
+  "estimated_processed_instances": 3100045,
+  "processed_instances": 3100666,
+  "exit_code": 0,
+  "termination_signal": null,
+  "timeout_seconds": null,
+  "moa_jar_sha256": "063cc0b7d649143386a81d7d2204ec9685e075b43b4718b61ca12b38fb181bfa",
+  "command": [
+    "/kaggle/working/.sgbr-cache/jdk-11.0.29+7/bin/java",
+    "-classpath",
+    "/kaggle/working/results/artifacts/moa-2023.04.1-SNAPSHOT-jar-with-dependencies.jar",
+    "-Xmx16g",
+    "-Xms50m",
+    "-Xss1g",
+    "moa.DoTask",
+    "EvaluatePrequentialRegression -e BasicRegressionPerformanceEvaluator  -f 10000000 -q 10000000 -s (ArffFileStream -f stream.arff) -l (meta.StreamingGradientBoostedTrees -t -L 1.0 -m 75 -s 10 -l (meta.AdaptiveRandomForestRegressor -s 10 -x (ADWINChangeDetector -a 0.001) -p (ADWINChangeDetector -a 0.01)) -Z 1) -d evaluation.csv"
+  ],
+  "ignored_java_option_variables": [],
+  "java_version": "openjdk version \"11.0.29\" 2025-10-21\nOpenJDK Runtime Environment Temurin-11.0.29+7 (build 11.0.29+7)\nOpenJDK 64-Bit Server VM Temurin-11.0.29+7 (build 11.0.29+7, mixed mode)",
+  "cgroup_limits": {
+    "version": 2,
+    "limits": [
+      {
+        "path": "/sys/fs/cgroup",
+        "cpu.max": "400000 100000",
+        "memory.max": "32212254720"
+      }
+    ],
+    "cpu_quota_cores": 4.0,
+    "memory_limit_bytes": 32212254720
+  },
+  "memory_cgroup_before": {
+    "/sys/fs/cgroup": {
+      "peak_bytes": 4797345792,
+      "counter_source": "memory.events",
+      "counters": {
+        "low": 0,
+        "high": 0,
+        "max": 0,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    }
+  },
+  "java_pid": 1486,
+  "wall_clock_seconds": 6255.82919224,
+  "java_rss_bytes": null,
+  "peak_java_rss_bytes": 2280615936,
+  "cgroup_memory_current_bytes": {
+    "/sys/fs/cgroup": 4792545280
+  },
+  "memory_cgroup_latest": {
+    "/sys/fs/cgroup": {
+      "peak_bytes": 7056207872,
+      "counter_source": "memory.events",
+      "counters": {
+        "low": 0,
+        "high": 0,
+        "max": 0,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    }
+  },
+  "oom": {
+    "java_reported": false,
+    "cgroup_counter_deltas": {
+      "/sys/fs/cgroup": {
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    "sigkill_coincided_with_cgroup_oom_kill": false
+  },
+  "build_tools": {
+    "java_home": "/kaggle/working/.sgbr-cache/jdk-11.0.29+7",
+    "java_executable": "/kaggle/working/.sgbr-cache/jdk-11.0.29+7/bin/java",
+    "java_version": "openjdk version \"11.0.29\" 2025-10-21\nOpenJDK Runtime Environment Temurin-11.0.29+7 (build 11.0.29+7)\nOpenJDK 64-Bit Server VM Temurin-11.0.29+7 (build 11.0.29+7, mixed mode)",
+    "javac_version": "javac 11.0.29",
+    "maven_executable": "/usr/bin/mvn",
+    "maven_version": "Apache Maven 3.8.7\nMaven home: /usr/share/maven\nJava version: 11.0.29, vendor: Eclipse Adoptium, runtime: /kaggle/working/.sgbr-cache/jdk-11.0.29+7\nDefault locale: en_US, platform encoding: UTF-8\nOS name: \"linux\", version: \"6.18.55+\", arch: \"amd64\", family: \"unix\""
+  },
+  "environment_manifest": "environment.json"
+}

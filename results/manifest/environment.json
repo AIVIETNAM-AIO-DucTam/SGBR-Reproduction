@@ -1,0 +1,169 @@
+{
+  "recorded_at_utc": "2026-11-20T18:55:34.785982+00:00",
+  "environment": "kaggle",
+  "platform": "Linux-6.18.55+-x86_64-with-glibc2.39",
+  "python_version": "3.13.18",
+  "logical_cpus": 4,
+  "affinity_cpus": 4,
+  "host_memory_kib": 32869296,
+  "cgroup": {
+    "version": 2,
+    "limits": [
+      {
+        "path": "/sys/fs/cgroup",
+        "cpu.max": "400000 100000",
+        "memory.max": "32212254720"
+      }
+    ],
+    "cpu_quota_cores": 4.0,
+    "memory_limit_bytes": 32212254720
+  },
+  "cpu": {
+    "models": [
+      "AMD EPYC 7B12"
+    ],
+    "observed_mhz": [
+      2249.998
+    ]
+  },
+  "jvm_resources": {
+    "flags": {
+      "ActiveProcessorCount": "-1",
+      "MaxHeapSize": "8053063680",
+      "UseAdaptiveSizePolicyWithSystemGC": "false",
+      "UseG1GC": "true",
+      "UseMaximumCompactionOnSystemGC": "true",
+      "UseParallelGC": "false",
+      "UseSerialGC": "false",
+      "UseShenandoahGC": "false",
+      "UseZGC": "false"
+    },
+    "settings": {
+      "exit_code": 0,
+      "output": "Operating System Metrics:\n    Provider: cgroupv2\n    Effective CPU Count: 4\n    CPU Period: 100000us\n    CPU Quota: 400000us\n    CPU Shares: -1\n    List of Processors, 4 total: \n    0 1 2 3 \n    List of Effective Processors, 4 total: \n    0 1 2 3 \n    List of Memory Nodes: N/A\n    List of Available Memory Nodes, 1 total: \n    0 \n    Memory Limit: 30.00G\n    Memory Soft Limit: 0.00K\n    Memory & Swap Limit: 30.00G\n    Maximum Processes Limit: 38508\n\nopenjdk version \"21.0.12.1\" 2026-08-18\nOpenJDK Runtime Environment (build 21.0.12.1+1-1-24.04.4-Ubuntu)\nOpenJDK 64-Bit Server VM (build 21.0.12.1+1-1-24.04.4-Ubuntu, mixed mode, sharing)"
+    },
+    "defaults": {
+      "exit_code": 0,
+      "output": "-XX:ConcGCThreads=1 -XX:G1ConcRefinementThreads=4 -XX:GCDrainStackTargetSize=64 -XX:InitialHeapSize=503316480 -XX:MarkStackSize=4194304 -XX:MaxHeapSize=8053063680 -XX:MinHeapSize=6815736 -XX:+PrintCommandLineFlags -XX:ReservedCodeCacheSize=251658240 -XX:+SegmentedCodeCache -XX:-THPStackMitigation -XX:+UseCompressedOops -XX:+UseG1GC \nopenjdk version \"21.0.12.1\" 2026-08-18\nOpenJDK Runtime Environment (build 21.0.12.1+1-1-24.04.4-Ubuntu)\nOpenJDK 64-Bit Server VM (build 21.0.12.1+1-1-24.04.4-Ubuntu, mixed mode, sharing)"
+    },
+    "available_processors": 4,
+    "max_memory_bytes": 8053063680
+  },
+  "working_disk": {
+    "path": "/kaggle/working",
+    "total_bytes": 20957446144,
+    "free_bytes": 20610560000
+  },
+  "session_limit_hours": 12.0,
+  "session_limit_source": "https://www.kaggle.com/docs/notebooks",
+  "tools": {
+    "python": {
+      "exit_code": 0,
+      "output": "Python 3.13.18"
+    },
+    "java": {
+      "exit_code": 0,
+      "output": "openjdk version \"21.0.12.1\" 2026-08-18\nOpenJDK Runtime Environment (build 21.0.12.1+1-1-24.04.4-Ubuntu)\nOpenJDK 64-Bit Server VM (build 21.0.12.1+1-1-24.04.4-Ubuntu, mixed mode, sharing)"
+    },
+    "javac": {
+      "exit_code": 0,
+      "output": "javac 21.0.12.1"
+    },
+    "mvn": {
+      "exit_code": 0,
+      "output": "\u001b[1mApache Maven 3.8.7\u001b[m\nMaven home: /usr/share/maven\nJava version: 11.0.29, vendor: Eclipse Adoptium, runtime: /kaggle/working/.sgbr-cache/jdk-11.0.29+7\nDefault locale: en_US, platform encoding: UTF-8\nOS name: \"linux\", version: \"6.18.55+\", arch: \"amd64\", family: \"unix\""
+    },
+    "git": {
+      "exit_code": 0,
+      "output": "git version 2.43.0"
+    },
+    "unzip": {
+      "exit_code": 0,
+      "output": "UnZip 6.00 of 20 April 2009, by Debian. Original by Info-ZIP.\n\nLatest sources and executables are at ftp://ftp.info-zip.org/pub/infozip/ ;\nsee ftp://ftp.info-zip.org/pub/infozip/UnZip.html for other sites.\n\nCompiled with gcc 13.2.0 for Unix (Linux ELF).\n\nUnZip special compilation options:\n        ACORN_FTYPE_NFS\n        COPYRIGHT_CLEAN (PKZIP 0.9x unreducing method not supported)\n        SET_DIR_ATTRIB\n        SYMLINKS (symbolic links supported, if RTL and file system permit)\n        TIMESTAMP\n        UNIXBACKUP\n        USE_EF_UT_TIME\n        USE_UNSHRINK (PKZIP/Zip 1.x unshrinking method supported)\n        USE_DEFLATE64 (PKZIP 4.x Deflate64(tm) supported)\n        UNICODE_SUPPORT [wide-chars, char coding: UTF-8] (handle UTF-8 paths)\n        LARGE_FILE_SUPPORT (large files over 2 GiB supported)\n        ZIP64_SUPPORT (archives using Zip64 for large files supported)\n        USE_BZIP2 (PKZIP 4.6+, using bzip2 lib version 1.0.8, 13-Jul-2019)\n        VMS_TEXT_CONV\n        WILD_STOP_AT_DIR\n        [decryption, version 2.11 of 05 Jan 2007]\n\nUnZip and ZipInfo environment options:\n           UNZIP:  [none]\n        UNZIPOPT:  [none]\n         ZIPINFO:  [none]\n      ZIPINFOOPT:  [none]"
+    }
+  },
+  "java_major": 21,
+  "java_selection_note": "MEKA 1.9.7 in the pinned MOA fork requires at least Java 11.",
+  "java_compile": {
+    "exit_code": 0,
+    "output": ""
+  },
+  "java_launch": {
+    "exit_code": 0,
+    "output": "SGBR_JAVA_OK\n4\n8053063680"
+  },
+  "network": {
+    "upstream_git_head": {
+      "exit_code": 0,
+      "output": "f62f7b437512e020f57c4bcd03884c4724eda5b1\tHEAD"
+    },
+    "maven_central": {
+      "http_status": 200
+    },
+    "pypi": {
+      "http_status": 200
+    }
+  },
+  "expected_upstream_commit": "f62f7b437512e020f57c4bcd03884c4724eda5b1",
+  "toolchain_smoke_passed": true,
+  "project_git_commit": "60b1668ef7fa049aeb24eab5eae5a29d0358c659",
+  "pipeline_status": "c01_passed",
+  "notebook_smoke_passed": true,
+  "ignored_java_option_variables": [],
+  "initial_tools": {
+    "python": {
+      "exit_code": 0,
+      "output": "Python 3.13.18"
+    },
+    "java": {
+      "exit_code": 0,
+      "output": "openjdk version \"21.0.12.1\" 2026-08-18\nOpenJDK Runtime Environment (build 21.0.12.1+1-1-24.04.4-Ubuntu)\nOpenJDK 64-Bit Server VM (build 21.0.12.1+1-1-24.04.4-Ubuntu, mixed mode, sharing)"
+    },
+    "javac": {
+      "exit_code": 0,
+      "output": "javac 21.0.12.1"
+    },
+    "mvn": {
+      "exit_code": null,
+      "output": "[Errno 2] No such file or directory: 'mvn'"
+    }
+  },
+  "initial_cgroup": {
+    "version": 2,
+    "limits": [
+      {
+        "path": "/sys/fs/cgroup",
+        "cpu.max": "400000 100000",
+        "memory.max": "32212254720"
+      }
+    ],
+    "cpu_quota_cores": 4.0,
+    "memory_limit_bytes": 32212254720
+  },
+  "selected_tools": {
+    "java_home": "/kaggle/working/.sgbr-cache/jdk-11.0.29+7",
+    "java_executable": "/kaggle/working/.sgbr-cache/jdk-11.0.29+7/bin/java",
+    "java_version": "openjdk version \"11.0.29\" 2025-10-21\nOpenJDK Runtime Environment Temurin-11.0.29+7 (build 11.0.29+7)\nOpenJDK 64-Bit Server VM Temurin-11.0.29+7 (build 11.0.29+7, mixed mode)",
+    "javac_version": "javac 11.0.29",
+    "maven_executable": "/usr/bin/mvn",
+    "maven_version": "Apache Maven 3.8.7\nMaven home: /usr/share/maven\nJava version: 11.0.29, vendor: Eclipse Adoptium, runtime: /kaggle/working/.sgbr-cache/jdk-11.0.29+7\nDefault locale: en_US, platform encoding: UTF-8\nOS name: \"linux\", version: \"6.18.55+\", arch: \"amd64\", family: \"unix\""
+  },
+  "moa": {
+    "upstream_commit": "f62f7b437512e020f57c4bcd03884c4724eda5b1",
+    "build_java_version": "openjdk version \"11.0.29\" 2025-10-21\nOpenJDK Runtime Environment Temurin-11.0.29+7 (build 11.0.29+7)\nOpenJDK 64-Bit Server VM Temurin-11.0.29+7 (build 11.0.29+7, mixed mode)",
+    "build_maven_version": "Apache Maven 3.8.7\nMaven home: /usr/share/maven\nJava version: 11.0.29, vendor: Eclipse Adoptium, runtime: /kaggle/working/.sgbr-cache/jdk-11.0.29+7\nDefault locale: en_US, platform encoding: UTF-8\nOS name: \"linux\", version: \"6.18.55+\", arch: \"amd64\", family: \"unix\"",
+    "path": "/kaggle/working/results/artifacts/moa-2023.04.1-SNAPSHOT-jar-with-dependencies.jar",
+    "sha256": "063cc0b7d649143386a81d7d2204ec9685e075b43b4718b61ca12b38fb181bfa",
+    "size_bytes": 95057034,
+    "reference_sha256": "9be332b07354c13237ead9a88d431a855ada14003395bb70386efc5f56ac4216",
+    "matches_reference_sha256": false,
+    "reused": false
+  },
+  "synthetic_smoke": {
+    "passed": true,
+    "processed_instances": 8,
+    "seed": 1,
+    "heap": "256m",
+    "task": "EvaluatePrequentialRegression -s (ArffFileStream -f probe.arff) -l (meta.StreamingGradientBoostedTrees -t -L 1.0 -m 75 -s 10 -l (meta.OzaBag -s 10 -l (trees.FIMTDD -s VarianceReductionSplitCriterion -g 50 -c 0.01 -e)) -Z 1) -i 8 -f 8 -d smoke.csv"
+  }
+}
