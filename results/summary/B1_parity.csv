@@ -119,4 +119,4 @@ B1-c-r2,bike,FIRTDD,,,,,results/raw/B1-c-r1/bike/FIRTDD/seed=none.json,,,,Incomp
 B1-c-r2,bike,HT,,,,,results/raw/B1-c-r1/bike/HT/seed=none.json,,,,Incomplete,pending,,,,,,,,,0.56,"Paper Table 3, journal p. 15",
 B1-c-r2,elevators,FIRTDD,,,,,results/raw/B1-c-r1/elevators/FIRTDD/seed=none.json,,,,Incomplete,pending,,,,,,,,,0.24,"Paper Table 3, journal p. 15",
 B1-c-r2,elevators,HT,,,,,results/raw/B1-c-r1/elevators/HT/seed=none.json,,,,Incomplete,pending,,,,,,,,,0.25,"Paper Table 3, journal p. 15",
-B1-d,NZEnergy,SGBT(ARFReg(FIRTDD)),1,,0.9741708731300197,,exp/post_hoc_new/NZEnergy_1/SGBT(ARF).csv,,7408.0869140625,,Incomplete,pending,,3100666,,,,exp/post_hoc_new/NZEnergy_1/SGBT(ARF).csv,,,,,
+B1-d,NZEnergy,SGBT(ARFReg(FIRTDD)),1,0.9741708731300197,0.9741708731300197,0E-16,exp/post_hoc_new/NZEnergy_1/SGBT(ARF).csv,6254.94091796875,7408.0869140625,0.8443395697876094,Exact,completed,3100666,3100666,2280615936,AMD EPYC 7B12,1,exp/post_hoc_new/NZEnergy_1/SGBT(ARF).csv,/mnt/c/Users/Admin/Downloads/SGBR_E1_completed/manifest/e1_memory_feasibility.files/evaluation.csv,,,,

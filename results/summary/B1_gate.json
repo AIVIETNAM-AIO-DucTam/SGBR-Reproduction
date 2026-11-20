@@ -2,9 +2,7 @@
   "verdict": "Incomplete",
   "completed_b1_runs": 0,
   "scheduled_b1_runs": 120,
-  "blockers": [
-    "B1-d needs the observed B0 evaluator CSV from the completed Kaggle run."
-  ],
+  "blockers": [],
   "serial_slowdown_by_cpu": [],
   "seed_differences": [
     {
