@@ -138,7 +138,7 @@ def jvm_resources():
     }
 
 
-def main():
+def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output", type=Path, default=Path("results/manifest/environment.json"))
     parser.add_argument("--local", action="store_true", help="Validate outside Kaggle")
@@ -146,11 +146,13 @@ def main():
     parser.add_argument("--session-limit-source", help="Kaggle UI or documentation for this session")
     parser.add_argument("--java-selection-note", help="Reason for selecting a JDK newer than 8")
     parser.add_argument("--allow-missing-maven", action="store_true", help="For a staged MOA jar")
-    args = parser.parse_args()
+    parser.add_argument("--allow-unknown-session-limit", action="store_true")
+    args = parser.parse_args(argv)
     if not args.local:
         if not KAGGLE_WORKING.is_dir():
             parser.error("run in Kaggle, or pass --local for a non-Kaggle validation")
-        if (
+        unknown_limit = args.allow_unknown_session_limit and args.session_limit_hours is None
+        if not unknown_limit and (
             args.session_limit_hours is None
             or not math.isfinite(args.session_limit_hours)
             or args.session_limit_hours <= 0

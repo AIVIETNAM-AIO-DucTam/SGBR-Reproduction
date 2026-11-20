@@ -35,6 +35,8 @@ See [experiment plan §7](experiment_plan.md#7-kaggle-compatibility-and-resource
 
 ## Kaggle CPU notebook
 
+Use the [integrated notebook](../notebooks/SGBR_C01_E1_Integrated.ipynb) to run C-01 and E1 in one session. The standalone steps below are available for C-01 diagnosis.
+
 Import [the C-01 notebook](../notebooks/c01_kaggle_cpu_smoke.ipynb), set Accelerator to **None**, and choose one project source in its configuration cell.
 
 - **Automatic private GitHub checkout.** Leave `CHECKOUT` and `KAGGLE_DATASET_ROOT` unset. Enable Kaggle Internet and grant the notebook access to the Kaggle Secret `GITHUB_TOKEN`. Use a fine-grained GitHub token scoped to `AIVIETNAM-AIO-DucTam/SGBR-Reproduction` with **Contents: Read**. Set `GITHUB_REF` to a branch name or a full 40-character SHA. The notebook creates a shallow checkout at `/kaggle/working/SGBR-Reproduction`. It reuses a matching clean checkout without reading the secret again. Set `GITHUB_REFRESH = True` to fetch the branch again. Use an explicit `CHECKOUT` if you intend to use local edits.

@@ -182,12 +182,69 @@ def processed_instances(csv_path):
     return int(count) if count.is_integer() else None
 
 
-def measure_java(manifest, result, work, groups, timeout, env):
+PROGRESS_PERCENT = re.compile(rb"(?<![\d.])(\d{1,3}(?:\.\d+)?)%")
+RSS_STATUS = re.compile(r"^(VmRSS|VmHWM):\s+(\d+) kB", re.M)
+
+
+def read_progress(log, carry, latest):
+    """Read new bytes from the Java log, including carriage-return updates."""
+    while chunk := log.read(65536):
+        for match in PROGRESS_PERCENT.finditer(carry + chunk):
+            value = float(match[1])
+            if 0 <= value <= 100:
+                latest = value
+        carry = (carry + chunk)[-32:]
+    return carry, latest
+
+
+def monitor_sample(result, groups, pid, elapsed, progress):
+    status = read_text(Path(f"/proc/{pid}/status")) if pid is not None else ""
+    rss = {key: int(value) * 1024 for key, value in RSS_STATUS.findall(status)}
+    current = {}
+    for entry in groups["limits"]:
+        path = Path(entry["path"])
+        if "memory.max" in entry:
+            current[str(path)] = read_counter(path / "memory.current")
+        elif "memory.limit_in_bytes" in entry:
+            current[str(path)] = read_counter(path / "memory.usage_in_bytes")
+    estimate = None if progress is None else int(result["dataset"]["expected_instances"] * progress / 100)
+    return {
+        "wall_clock_seconds": elapsed,
+        "latest_progress_percent": progress,
+        "estimated_processed_instances": estimate,
+        "java_rss_bytes": rss.get("VmRSS"),
+        "peak_java_rss_bytes": rss.get("VmHWM"),
+        "cgroup_memory_current_bytes": current,
+        "memory_cgroup_latest": memory_snapshot(groups),
+    }
+
+
+def display_progress(sample):
+    elapsed = time.strftime("%H:%M:%S", time.gmtime(sample["wall_clock_seconds"]))
+    progress = sample["latest_progress_percent"]
+    progress_label = "waiting for MOA" if progress is None else f"{progress:.2f}%"
+    current = next((value for value in sample["cgroup_memory_current_bytes"].values()
+                    if value is not None), None)
+
+    def gib(value):
+        return "unavailable" if value is None else f"{value / 1024**3:.2f} GiB"
+
+    print(
+        f"[{elapsed}] E1 running | Progress: {progress_label} | "
+        f"Java RSS: {gib(sample['java_rss_bytes'])} | cgroup: {gib(current)}",
+        flush=True,
+    )
+
+
+def measure_java(manifest, result, work, groups, timeout, env, progress_interval=30):
     result["memory_cgroup_before"] = memory_snapshot(groups)
     started = time.monotonic()
     checkpoint = started
     interrupted = None
-    with (work / "java.log").open("wb") as log:
+    carry, progress = b"", None
+    with ((work / "java.log").open("wb") as log,
+          (work / "java.log").open("rb") as progress_log,
+          (work / "resource_monitor.jsonl").open("w", encoding="utf-8", buffering=1) as monitor):
         process = subprocess.Popen(
             result["command"], cwd=work, stdout=log, stderr=subprocess.STDOUT, env=env,
         )
@@ -203,14 +260,13 @@ def measure_java(manifest, result, work, groups, timeout, env):
                     interrupted = "timed_out"
                     break
                 if now >= checkpoint:
-                    rss = re.search(r"^VmHWM:\s+(\d+) kB", read_text(Path(f"/proc/{process.pid}/status")), re.M)
-                    result.update(
-                        wall_clock_seconds=now - started,
-                        peak_java_rss_bytes=int(rss[1]) * 1024 if rss else None,
-                        memory_cgroup_latest=memory_snapshot(groups),
-                    )
+                    carry, progress = read_progress(progress_log, carry, progress)
+                    sample = monitor_sample(result, groups, process.pid, now - started, progress)
+                    result.update(sample)
+                    monitor.write(json.dumps({"status": "running", **sample}) + "\n")
                     save_manifest(manifest, result)
-                    checkpoint = now + 30
+                    display_progress(sample)
+                    checkpoint = now + progress_interval
                 time.sleep(0.5)
         except KeyboardInterrupt:
             interrupted = "interrupted"
@@ -222,13 +278,16 @@ def measure_java(manifest, result, work, groups, timeout, env):
                     pass
                 _, wait_status, usage = os.wait4(process.pid, 0)
             process.returncode = os.waitstatus_to_exitcode(wait_status)
+        elapsed = time.monotonic() - started
+        _, progress = read_progress(progress_log, carry, progress)
+        final_sample = monitor_sample(result, groups, None, elapsed, progress)
+        final_sample["peak_java_rss_bytes"] = usage.ru_maxrss * 1024
+        result.update(final_sample)
+        monitor.write(json.dumps({"status": "exited", **final_sample}) + "\n")
 
     result.update(
-        wall_clock_seconds=time.monotonic() - started,
-        peak_java_rss_bytes=usage.ru_maxrss * 1024,
         exit_code=process.returncode if process.returncode >= 0 else None,
         termination_signal=-process.returncode if process.returncode < 0 else None,
-        memory_cgroup_latest=memory_snapshot(groups),
     )
     deltas = memory_deltas(result["memory_cgroup_before"], result["memory_cgroup_latest"])
     java_reported_oom = java_oom(work)
@@ -254,7 +313,7 @@ def measure_java(manifest, result, work, groups, timeout, env):
         result["status"] = "completed"
 
 
-def main():
+def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--upstream-checkout", type=Path, required=True)
     parser.add_argument("--moa-jar", type=Path, required=True)
@@ -266,7 +325,12 @@ def main():
     parser.add_argument("--manifest", type=Path, default=Path("results/manifest/e1_memory_feasibility.json"))
     parser.add_argument("--timeout-seconds", type=int)
     parser.add_argument("--local", action="store_true", help="Label validation outside Kaggle")
-    args = parser.parse_args()
+    parser.add_argument("--progress-interval", type=int, default=30)
+    parser.add_argument("--expected-instances", type=int)
+    parser.add_argument("--project-git-commit")
+    args = parser.parse_args(argv)
+    if args.progress_interval <= 0:
+        parser.error("--progress-interval must be positive.")
     if not args.local and not KAGGLE_WORKING.is_dir():
         parser.error("Run in a Kaggle CPU notebook, or pass --local for local validation.")
     if args.timeout_seconds is not None and args.timeout_seconds <= 0:
@@ -285,12 +349,17 @@ def main():
         "environment": "local" if args.local else "kaggle",
         "scope": "one full E1 cell",
         "upstream_commit": UPSTREAM_COMMIT,
+        "project_git_commit": args.project_git_commit,
         "dataset": {"name": args.dataset},
         "learner": args.learner,
         "seed": args.seed,
         "java_max_heap_bytes": 16 * 1024**3,
         "java_log": f"{work.name}/java.log",
         "evaluation_csv": f"{work.name}/evaluation.csv",
+        "resource_monitor_log": f"{work.name}/resource_monitor.jsonl",
+        "latest_progress_percent": None,
+        "estimated_processed_instances": None,
+        "processed_instances": None,
         "exit_code": None,
         "termination_signal": None,
         "timeout_seconds": args.timeout_seconds,
@@ -315,15 +384,21 @@ def main():
         ).strip()
         stream = stream_bytes(args.upstream_checkout, args.dataset, work)
         result["dataset"].update(dataset_evidence(stream))
+        if args.expected_instances is not None and result["dataset"]["expected_instances"] != args.expected_instances:
+            raise ValueError(f"Pinned ARFF count differs from the expected {args.expected_instances} instances.")
         groups = cgroup_limits()
         result["cgroup_limits"] = groups
-        measure_java(manifest, result, work, groups, args.timeout_seconds, env)
+        measure_java(manifest, result, work, groups, args.timeout_seconds, env, args.progress_interval)
+    except KeyboardInterrupt:
+        result["status"] = "interrupted"
     except (OSError, ValueError, subprocess.SubprocessError, zipfile.BadZipFile, KeyError) as error:
         result.update(status="error", error=str(error))
     finally:
         (work / "stream.arff").unlink(missing_ok=True)
         save_manifest(manifest, result)
-    print(f"{result['status']}: {manifest}")
+    if result["status"] == "completed":
+        print(f"[COMPLETED] E1 reached 100% | {result['processed_instances']:,} verified instances", flush=True)
+    print(f"{result['status']}: {manifest}", flush=True)
     return 0 if result["status"] == "completed" else 1
 
 
