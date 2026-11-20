@@ -1,0 +1,996 @@
+{
+  "batch": "B1",
+  "schema_version": 1,
+  "upstream_commit": "f62f7b437512e020f57c4bcd03884c4724eda5b1",
+  "config_path": "exp/exp_config.json",
+  "config_sha256": "27621eb29b0b41f31444f68591d58c742be523a957e439241db9cc2c955bdc35",
+  "scheduled_runs": 120,
+  "concurrency": 1,
+  "jvm": [
+    "-Xmx16g",
+    "-Xms50m",
+    "-Xss1g"
+  ],
+  "datasets": {
+    "abalone": {
+      "sha256": "8bd21a3377b5cec97f65685c912cb7d873d2db463479843157c1f48e5053ae0c",
+      "expected_instances": 4977
+    },
+    "bike": {
+      "sha256": "9d2dff92e522bf7efe073fdf25d00b728c08b3572df6395f911cfc105ba6e522",
+      "expected_instances": 17379
+    },
+    "elevators": {
+      "sha256": "2cf6e203cc809acb65dac7ee9d3a17d5eeabbf16bc4a61e0a07f9bc2f786e5fd",
+      "expected_instances": 16599
+    }
+  },
+  "cells": [
+    {
+      "exp": "B1-a",
+      "dataset": "abalone",
+      "method_key": "Oza(SGBT(FIRTDD))",
+      "seed": 1,
+      "ref_source": "exp/post_hoc_new/abalone_1/Oza(SGBT).csv",
+      "record_path": "results/raw/B1-a/abalone/Oza(SGBT(FIRTDD))/seed=1.json"
+    },
+    {
+      "exp": "B1-a",
+      "dataset": "abalone",
+      "method_key": "Oza(SGBT(FIRTDD))",
+      "seed": 2,
+      "ref_source": "exp/post_hoc_new/abalone_2/Oza(SGBT).csv",
+      "record_path": "results/raw/B1-a/abalone/Oza(SGBT(FIRTDD))/seed=2.json"
+    },
+    {
+      "exp": "B1-a",
+      "dataset": "abalone",
+      "method_key": "Oza(SGBT(FIRTDD))",
+      "seed": 3,
+      "ref_source": "exp/post_hoc_new/abalone_3/Oza(SGBT).csv",
+      "record_path": "results/raw/B1-a/abalone/Oza(SGBT(FIRTDD))/seed=3.json"
+    },
+    {
+      "exp": "B1-a",
+      "dataset": "abalone",
+      "method_key": "Oza(SGBT(FIRTDD))",
+      "seed": 4,
+      "ref_source": "exp/post_hoc_new/abalone_4/Oza(SGBT).csv",
+      "record_path": "results/raw/B1-a/abalone/Oza(SGBT(FIRTDD))/seed=4.json"
+    },
+    {
+      "exp": "B1-a",
+      "dataset": "abalone",
+      "method_key": "Oza(SGBT(FIRTDD))",
+      "seed": 5,
+      "ref_source": "exp/post_hoc_new/abalone_5/Oza(SGBT).csv",
+      "record_path": "results/raw/B1-a/abalone/Oza(SGBT(FIRTDD))/seed=5.json"
+    },
+    {
+      "exp": "B1-a",
+      "dataset": "abalone",
+      "method_key": "SGBT(Oza(FIRTDD))",
+      "seed": 1,
+      "ref_source": "exp/post_hoc_new/abalone_1/SGBT(Oza).csv",
+      "record_path": "results/raw/B1-a/abalone/SGBT(Oza(FIRTDD))/seed=1.json"
+    },
+    {
+      "exp": "B1-a",
+      "dataset": "abalone",
+      "method_key": "SGBT(Oza(FIRTDD))",
+      "seed": 2,
+      "ref_source": "exp/post_hoc_new/abalone_2/SGBT(Oza).csv",
+      "record_path": "results/raw/B1-a/abalone/SGBT(Oza(FIRTDD))/seed=2.json"
+    },
+    {
+      "exp": "B1-a",
+      "dataset": "abalone",
+      "method_key": "SGBT(Oza(FIRTDD))",
+      "seed": 3,
+      "ref_source": "exp/post_hoc_new/abalone_3/SGBT(Oza).csv",
+      "record_path": "results/raw/B1-a/abalone/SGBT(Oza(FIRTDD))/seed=3.json"
+    },
+    {
+      "exp": "B1-a",
+      "dataset": "abalone",
+      "method_key": "SGBT(Oza(FIRTDD))",
+      "seed": 4,
+      "ref_source": "exp/post_hoc_new/abalone_4/SGBT(Oza).csv",
+      "record_path": "results/raw/B1-a/abalone/SGBT(Oza(FIRTDD))/seed=4.json"
+    },
+    {
+      "exp": "B1-a",
+      "dataset": "abalone",
+      "method_key": "SGBT(Oza(FIRTDD))",
+      "seed": 5,
+      "ref_source": "exp/post_hoc_new/abalone_5/SGBT(Oza).csv",
+      "record_path": "results/raw/B1-a/abalone/SGBT(Oza(FIRTDD))/seed=5.json"
+    },
+    {
+      "exp": "B1-a",
+      "dataset": "abalone",
+      "method_key": "SGBT(ARFReg(FIRTDD))",
+      "seed": 1,
+      "ref_source": "exp/post_hoc_new/abalone_1/SGBT(ARF).csv",
+      "record_path": "results/raw/B1-a/abalone/SGBT(ARFReg(FIRTDD))/seed=1.json"
+    },
+    {
+      "exp": "B1-a",
+      "dataset": "abalone",
+      "method_key": "SGBT(ARFReg(FIRTDD))",
+      "seed": 2,
+      "ref_source": "exp/post_hoc_new/abalone_2/SGBT(ARF).csv",
+      "record_path": "results/raw/B1-a/abalone/SGBT(ARFReg(FIRTDD))/seed=2.json"
+    },
+    {
+      "exp": "B1-a",
+      "dataset": "abalone",
+      "method_key": "SGBT(ARFReg(FIRTDD))",
+      "seed": 3,
+      "ref_source": "exp/post_hoc_new/abalone_3/SGBT(ARF).csv",
+      "record_path": "results/raw/B1-a/abalone/SGBT(ARFReg(FIRTDD))/seed=3.json"
+    },
+    {
+      "exp": "B1-a",
+      "dataset": "abalone",
+      "method_key": "SGBT(ARFReg(FIRTDD))",
+      "seed": 4,
+      "ref_source": "exp/post_hoc_new/abalone_4/SGBT(ARF).csv",
+      "record_path": "results/raw/B1-a/abalone/SGBT(ARFReg(FIRTDD))/seed=4.json"
+    },
+    {
+      "exp": "B1-a",
+      "dataset": "abalone",
+      "method_key": "SGBT(ARFReg(FIRTDD))",
+      "seed": 5,
+      "ref_source": "exp/post_hoc_new/abalone_5/SGBT(ARF).csv",
+      "record_path": "results/raw/B1-a/abalone/SGBT(ARFReg(FIRTDD))/seed=5.json"
+    },
+    {
+      "exp": "B1-a",
+      "dataset": "abalone",
+      "method_key": "Oza(FIRTDD)",
+      "seed": 1,
+      "ref_source": "exp/post_hoc_new/abalone_1/OzaReg.csv",
+      "record_path": "results/raw/B1-a/abalone/Oza(FIRTDD)/seed=1.json"
+    },
+    {
+      "exp": "B1-a",
+      "dataset": "abalone",
+      "method_key": "Oza(FIRTDD)",
+      "seed": 2,
+      "ref_source": "exp/post_hoc_new/abalone_2/OzaReg.csv",
+      "record_path": "results/raw/B1-a/abalone/Oza(FIRTDD)/seed=2.json"
+    },
+    {
+      "exp": "B1-a",
+      "dataset": "abalone",
+      "method_key": "Oza(FIRTDD)",
+      "seed": 3,
+      "ref_source": "exp/post_hoc_new/abalone_3/OzaReg.csv",
+      "record_path": "results/raw/B1-a/abalone/Oza(FIRTDD)/seed=3.json"
+    },
+    {
+      "exp": "B1-a",
+      "dataset": "abalone",
+      "method_key": "Oza(FIRTDD)",
+      "seed": 4,
+      "ref_source": "exp/post_hoc_new/abalone_4/OzaReg.csv",
+      "record_path": "results/raw/B1-a/abalone/Oza(FIRTDD)/seed=4.json"
+    },
+    {
+      "exp": "B1-a",
+      "dataset": "abalone",
+      "method_key": "Oza(FIRTDD)",
+      "seed": 5,
+      "ref_source": "exp/post_hoc_new/abalone_5/OzaReg.csv",
+      "record_path": "results/raw/B1-a/abalone/Oza(FIRTDD)/seed=5.json"
+    },
+    {
+      "exp": "B1-a",
+      "dataset": "abalone",
+      "method_key": "ARFReg(FIRTDD)",
+      "seed": 1,
+      "ref_source": "exp/post_hoc_new/abalone_1/ARFReg.csv",
+      "record_path": "results/raw/B1-a/abalone/ARFReg(FIRTDD)/seed=1.json"
+    },
+    {
+      "exp": "B1-a",
+      "dataset": "abalone",
+      "method_key": "ARFReg(FIRTDD)",
+      "seed": 2,
+      "ref_source": "exp/post_hoc_new/abalone_2/ARFReg.csv",
+      "record_path": "results/raw/B1-a/abalone/ARFReg(FIRTDD)/seed=2.json"
+    },
+    {
+      "exp": "B1-a",
+      "dataset": "abalone",
+      "method_key": "ARFReg(FIRTDD)",
+      "seed": 3,
+      "ref_source": "exp/post_hoc_new/abalone_3/ARFReg.csv",
+      "record_path": "results/raw/B1-a/abalone/ARFReg(FIRTDD)/seed=3.json"
+    },
+    {
+      "exp": "B1-a",
+      "dataset": "abalone",
+      "method_key": "ARFReg(FIRTDD)",
+      "seed": 4,
+      "ref_source": "exp/post_hoc_new/abalone_4/ARFReg.csv",
+      "record_path": "results/raw/B1-a/abalone/ARFReg(FIRTDD)/seed=4.json"
+    },
+    {
+      "exp": "B1-a",
+      "dataset": "abalone",
+      "method_key": "ARFReg(FIRTDD)",
+      "seed": 5,
+      "ref_source": "exp/post_hoc_new/abalone_5/ARFReg.csv",
+      "record_path": "results/raw/B1-a/abalone/ARFReg(FIRTDD)/seed=5.json"
+    },
+    {
+      "exp": "B1-a",
+      "dataset": "abalone",
+      "method_key": "SOKNL(FIRTDD)",
+      "seed": 1,
+      "ref_source": "exp/post_hoc_new/abalone_1/SOKNL.csv",
+      "record_path": "results/raw/B1-a/abalone/SOKNL(FIRTDD)/seed=1.json"
+    },
+    {
+      "exp": "B1-a",
+      "dataset": "abalone",
+      "method_key": "SOKNL(FIRTDD)",
+      "seed": 2,
+      "ref_source": "exp/post_hoc_new/abalone_2/SOKNL.csv",
+      "record_path": "results/raw/B1-a/abalone/SOKNL(FIRTDD)/seed=2.json"
+    },
+    {
+      "exp": "B1-a",
+      "dataset": "abalone",
+      "method_key": "SOKNL(FIRTDD)",
+      "seed": 3,
+      "ref_source": "exp/post_hoc_new/abalone_3/SOKNL.csv",
+      "record_path": "results/raw/B1-a/abalone/SOKNL(FIRTDD)/seed=3.json"
+    },
+    {
+      "exp": "B1-a",
+      "dataset": "abalone",
+      "method_key": "SOKNL(FIRTDD)",
+      "seed": 4,
+      "ref_source": "exp/post_hoc_new/abalone_4/SOKNL.csv",
+      "record_path": "results/raw/B1-a/abalone/SOKNL(FIRTDD)/seed=4.json"
+    },
+    {
+      "exp": "B1-a",
+      "dataset": "abalone",
+      "method_key": "SOKNL(FIRTDD)",
+      "seed": 5,
+      "ref_source": "exp/post_hoc_new/abalone_5/SOKNL.csv",
+      "record_path": "results/raw/B1-a/abalone/SOKNL(FIRTDD)/seed=5.json"
+    },
+    {
+      "exp": "B1-a",
+      "dataset": "bike",
+      "method_key": "Oza(SGBT(FIRTDD))",
+      "seed": 1,
+      "ref_source": "exp/post_hoc_new/bike_1/Oza(SGBT).csv",
+      "record_path": "results/raw/B1-a/bike/Oza(SGBT(FIRTDD))/seed=1.json"
+    },
+    {
+      "exp": "B1-a",
+      "dataset": "bike",
+      "method_key": "Oza(SGBT(FIRTDD))",
+      "seed": 2,
+      "ref_source": "exp/post_hoc_new/bike_2/Oza(SGBT).csv",
+      "record_path": "results/raw/B1-a/bike/Oza(SGBT(FIRTDD))/seed=2.json"
+    },
+    {
+      "exp": "B1-a",
+      "dataset": "bike",
+      "method_key": "Oza(SGBT(FIRTDD))",
+      "seed": 3,
+      "ref_source": "exp/post_hoc_new/bike_3/Oza(SGBT).csv",
+      "record_path": "results/raw/B1-a/bike/Oza(SGBT(FIRTDD))/seed=3.json"
+    },
+    {
+      "exp": "B1-a",
+      "dataset": "bike",
+      "method_key": "Oza(SGBT(FIRTDD))",
+      "seed": 4,
+      "ref_source": "exp/post_hoc_new/bike_4/Oza(SGBT).csv",
+      "record_path": "results/raw/B1-a/bike/Oza(SGBT(FIRTDD))/seed=4.json"
+    },
+    {
+      "exp": "B1-a",
+      "dataset": "bike",
+      "method_key": "Oza(SGBT(FIRTDD))",
+      "seed": 5,
+      "ref_source": "exp/post_hoc_new/bike_5/Oza(SGBT).csv",
+      "record_path": "results/raw/B1-a/bike/Oza(SGBT(FIRTDD))/seed=5.json"
+    },
+    {
+      "exp": "B1-a",
+      "dataset": "bike",
+      "method_key": "SGBT(Oza(FIRTDD))",
+      "seed": 1,
+      "ref_source": "exp/post_hoc_new/bike_1/SGBT(Oza).csv",
+      "record_path": "results/raw/B1-a/bike/SGBT(Oza(FIRTDD))/seed=1.json"
+    },
+    {
+      "exp": "B1-a",
+      "dataset": "bike",
+      "method_key": "SGBT(Oza(FIRTDD))",
+      "seed": 2,
+      "ref_source": "exp/post_hoc_new/bike_2/SGBT(Oza).csv",
+      "record_path": "results/raw/B1-a/bike/SGBT(Oza(FIRTDD))/seed=2.json"
+    },
+    {
+      "exp": "B1-a",
+      "dataset": "bike",
+      "method_key": "SGBT(Oza(FIRTDD))",
+      "seed": 3,
+      "ref_source": "exp/post_hoc_new/bike_3/SGBT(Oza).csv",
+      "record_path": "results/raw/B1-a/bike/SGBT(Oza(FIRTDD))/seed=3.json"
+    },
+    {
+      "exp": "B1-a",
+      "dataset": "bike",
+      "method_key": "SGBT(Oza(FIRTDD))",
+      "seed": 4,
+      "ref_source": "exp/post_hoc_new/bike_4/SGBT(Oza).csv",
+      "record_path": "results/raw/B1-a/bike/SGBT(Oza(FIRTDD))/seed=4.json"
+    },
+    {
+      "exp": "B1-a",
+      "dataset": "bike",
+      "method_key": "SGBT(Oza(FIRTDD))",
+      "seed": 5,
+      "ref_source": "exp/post_hoc_new/bike_5/SGBT(Oza).csv",
+      "record_path": "results/raw/B1-a/bike/SGBT(Oza(FIRTDD))/seed=5.json"
+    },
+    {
+      "exp": "B1-a",
+      "dataset": "bike",
+      "method_key": "SGBT(ARFReg(FIRTDD))",
+      "seed": 1,
+      "ref_source": "exp/post_hoc_new/bike_1/SGBT(ARF).csv",
+      "record_path": "results/raw/B1-a/bike/SGBT(ARFReg(FIRTDD))/seed=1.json"
+    },
+    {
+      "exp": "B1-a",
+      "dataset": "bike",
+      "method_key": "SGBT(ARFReg(FIRTDD))",
+      "seed": 2,
+      "ref_source": "exp/post_hoc_new/bike_2/SGBT(ARF).csv",
+      "record_path": "results/raw/B1-a/bike/SGBT(ARFReg(FIRTDD))/seed=2.json"
+    },
+    {
+      "exp": "B1-a",
+      "dataset": "bike",
+      "method_key": "SGBT(ARFReg(FIRTDD))",
+      "seed": 3,
+      "ref_source": "exp/post_hoc_new/bike_3/SGBT(ARF).csv",
+      "record_path": "results/raw/B1-a/bike/SGBT(ARFReg(FIRTDD))/seed=3.json"
+    },
+    {
+      "exp": "B1-a",
+      "dataset": "bike",
+      "method_key": "SGBT(ARFReg(FIRTDD))",
+      "seed": 4,
+      "ref_source": "exp/post_hoc_new/bike_4/SGBT(ARF).csv",
+      "record_path": "results/raw/B1-a/bike/SGBT(ARFReg(FIRTDD))/seed=4.json"
+    },
+    {
+      "exp": "B1-a",
+      "dataset": "bike",
+      "method_key": "SGBT(ARFReg(FIRTDD))",
+      "seed": 5,
+      "ref_source": "exp/post_hoc_new/bike_5/SGBT(ARF).csv",
+      "record_path": "results/raw/B1-a/bike/SGBT(ARFReg(FIRTDD))/seed=5.json"
+    },
+    {
+      "exp": "B1-a",
+      "dataset": "bike",
+      "method_key": "Oza(FIRTDD)",
+      "seed": 1,
+      "ref_source": "exp/post_hoc_new/bike_1/OzaReg.csv",
+      "record_path": "results/raw/B1-a/bike/Oza(FIRTDD)/seed=1.json"
+    },
+    {
+      "exp": "B1-a",
+      "dataset": "bike",
+      "method_key": "Oza(FIRTDD)",
+      "seed": 2,
+      "ref_source": "exp/post_hoc_new/bike_2/OzaReg.csv",
+      "record_path": "results/raw/B1-a/bike/Oza(FIRTDD)/seed=2.json"
+    },
+    {
+      "exp": "B1-a",
+      "dataset": "bike",
+      "method_key": "Oza(FIRTDD)",
+      "seed": 3,
+      "ref_source": "exp/post_hoc_new/bike_3/OzaReg.csv",
+      "record_path": "results/raw/B1-a/bike/Oza(FIRTDD)/seed=3.json"
+    },
+    {
+      "exp": "B1-a",
+      "dataset": "bike",
+      "method_key": "Oza(FIRTDD)",
+      "seed": 4,
+      "ref_source": "exp/post_hoc_new/bike_4/OzaReg.csv",
+      "record_path": "results/raw/B1-a/bike/Oza(FIRTDD)/seed=4.json"
+    },
+    {
+      "exp": "B1-a",
+      "dataset": "bike",
+      "method_key": "Oza(FIRTDD)",
+      "seed": 5,
+      "ref_source": "exp/post_hoc_new/bike_5/OzaReg.csv",
+      "record_path": "results/raw/B1-a/bike/Oza(FIRTDD)/seed=5.json"
+    },
+    {
+      "exp": "B1-a",
+      "dataset": "bike",
+      "method_key": "ARFReg(FIRTDD)",
+      "seed": 1,
+      "ref_source": "exp/post_hoc_new/bike_1/ARFReg.csv",
+      "record_path": "results/raw/B1-a/bike/ARFReg(FIRTDD)/seed=1.json"
+    },
+    {
+      "exp": "B1-a",
+      "dataset": "bike",
+      "method_key": "ARFReg(FIRTDD)",
+      "seed": 2,
+      "ref_source": "exp/post_hoc_new/bike_2/ARFReg.csv",
+      "record_path": "results/raw/B1-a/bike/ARFReg(FIRTDD)/seed=2.json"
+    },
+    {
+      "exp": "B1-a",
+      "dataset": "bike",
+      "method_key": "ARFReg(FIRTDD)",
+      "seed": 3,
+      "ref_source": "exp/post_hoc_new/bike_3/ARFReg.csv",
+      "record_path": "results/raw/B1-a/bike/ARFReg(FIRTDD)/seed=3.json"
+    },
+    {
+      "exp": "B1-a",
+      "dataset": "bike",
+      "method_key": "ARFReg(FIRTDD)",
+      "seed": 4,
+      "ref_source": "exp/post_hoc_new/bike_4/ARFReg.csv",
+      "record_path": "results/raw/B1-a/bike/ARFReg(FIRTDD)/seed=4.json"
+    },
+    {
+      "exp": "B1-a",
+      "dataset": "bike",
+      "method_key": "ARFReg(FIRTDD)",
+      "seed": 5,
+      "ref_source": "exp/post_hoc_new/bike_5/ARFReg.csv",
+      "record_path": "results/raw/B1-a/bike/ARFReg(FIRTDD)/seed=5.json"
+    },
+    {
+      "exp": "B1-a",
+      "dataset": "bike",
+      "method_key": "SOKNL(FIRTDD)",
+      "seed": 1,
+      "ref_source": "exp/post_hoc_new/bike_1/SOKNL.csv",
+      "record_path": "results/raw/B1-a/bike/SOKNL(FIRTDD)/seed=1.json"
+    },
+    {
+      "exp": "B1-a",
+      "dataset": "bike",
+      "method_key": "SOKNL(FIRTDD)",
+      "seed": 2,
+      "ref_source": "exp/post_hoc_new/bike_2/SOKNL.csv",
+      "record_path": "results/raw/B1-a/bike/SOKNL(FIRTDD)/seed=2.json"
+    },
+    {
+      "exp": "B1-a",
+      "dataset": "bike",
+      "method_key": "SOKNL(FIRTDD)",
+      "seed": 3,
+      "ref_source": "exp/post_hoc_new/bike_3/SOKNL.csv",
+      "record_path": "results/raw/B1-a/bike/SOKNL(FIRTDD)/seed=3.json"
+    },
+    {
+      "exp": "B1-a",
+      "dataset": "bike",
+      "method_key": "SOKNL(FIRTDD)",
+      "seed": 4,
+      "ref_source": "exp/post_hoc_new/bike_4/SOKNL.csv",
+      "record_path": "results/raw/B1-a/bike/SOKNL(FIRTDD)/seed=4.json"
+    },
+    {
+      "exp": "B1-a",
+      "dataset": "bike",
+      "method_key": "SOKNL(FIRTDD)",
+      "seed": 5,
+      "ref_source": "exp/post_hoc_new/bike_5/SOKNL.csv",
+      "record_path": "results/raw/B1-a/bike/SOKNL(FIRTDD)/seed=5.json"
+    },
+    {
+      "exp": "B1-a",
+      "dataset": "elevators",
+      "method_key": "Oza(SGBT(FIRTDD))",
+      "seed": 1,
+      "ref_source": "exp/post_hoc_new/elevators_1/Oza(SGBT).csv",
+      "record_path": "results/raw/B1-a/elevators/Oza(SGBT(FIRTDD))/seed=1.json"
+    },
+    {
+      "exp": "B1-a",
+      "dataset": "elevators",
+      "method_key": "Oza(SGBT(FIRTDD))",
+      "seed": 2,
+      "ref_source": "exp/post_hoc_new/elevators_2/Oza(SGBT).csv",
+      "record_path": "results/raw/B1-a/elevators/Oza(SGBT(FIRTDD))/seed=2.json"
+    },
+    {
+      "exp": "B1-a",
+      "dataset": "elevators",
+      "method_key": "Oza(SGBT(FIRTDD))",
+      "seed": 3,
+      "ref_source": "exp/post_hoc_new/elevators_3/Oza(SGBT).csv",
+      "record_path": "results/raw/B1-a/elevators/Oza(SGBT(FIRTDD))/seed=3.json"
+    },
+    {
+      "exp": "B1-a",
+      "dataset": "elevators",
+      "method_key": "Oza(SGBT(FIRTDD))",
+      "seed": 4,
+      "ref_source": "exp/post_hoc_new/elevators_4/Oza(SGBT).csv",
+      "record_path": "results/raw/B1-a/elevators/Oza(SGBT(FIRTDD))/seed=4.json"
+    },
+    {
+      "exp": "B1-a",
+      "dataset": "elevators",
+      "method_key": "Oza(SGBT(FIRTDD))",
+      "seed": 5,
+      "ref_source": "exp/post_hoc_new/elevators_5/Oza(SGBT).csv",
+      "record_path": "results/raw/B1-a/elevators/Oza(SGBT(FIRTDD))/seed=5.json"
+    },
+    {
+      "exp": "B1-a",
+      "dataset": "elevators",
+      "method_key": "SGBT(Oza(FIRTDD))",
+      "seed": 1,
+      "ref_source": "exp/post_hoc_new/elevators_1/SGBT(Oza).csv",
+      "record_path": "results/raw/B1-a/elevators/SGBT(Oza(FIRTDD))/seed=1.json"
+    },
+    {
+      "exp": "B1-a",
+      "dataset": "elevators",
+      "method_key": "SGBT(Oza(FIRTDD))",
+      "seed": 2,
+      "ref_source": "exp/post_hoc_new/elevators_2/SGBT(Oza).csv",
+      "record_path": "results/raw/B1-a/elevators/SGBT(Oza(FIRTDD))/seed=2.json"
+    },
+    {
+      "exp": "B1-a",
+      "dataset": "elevators",
+      "method_key": "SGBT(Oza(FIRTDD))",
+      "seed": 3,
+      "ref_source": "exp/post_hoc_new/elevators_3/SGBT(Oza).csv",
+      "record_path": "results/raw/B1-a/elevators/SGBT(Oza(FIRTDD))/seed=3.json"
+    },
+    {
+      "exp": "B1-a",
+      "dataset": "elevators",
+      "method_key": "SGBT(Oza(FIRTDD))",
+      "seed": 4,
+      "ref_source": "exp/post_hoc_new/elevators_4/SGBT(Oza).csv",
+      "record_path": "results/raw/B1-a/elevators/SGBT(Oza(FIRTDD))/seed=4.json"
+    },
+    {
+      "exp": "B1-a",
+      "dataset": "elevators",
+      "method_key": "SGBT(Oza(FIRTDD))",
+      "seed": 5,
+      "ref_source": "exp/post_hoc_new/elevators_5/SGBT(Oza).csv",
+      "record_path": "results/raw/B1-a/elevators/SGBT(Oza(FIRTDD))/seed=5.json"
+    },
+    {
+      "exp": "B1-a",
+      "dataset": "elevators",
+      "method_key": "SGBT(ARFReg(FIRTDD))",
+      "seed": 1,
+      "ref_source": "exp/post_hoc_new/elevators_1/SGBT(ARF).csv",
+      "record_path": "results/raw/B1-a/elevators/SGBT(ARFReg(FIRTDD))/seed=1.json"
+    },
+    {
+      "exp": "B1-a",
+      "dataset": "elevators",
+      "method_key": "SGBT(ARFReg(FIRTDD))",
+      "seed": 2,
+      "ref_source": "exp/post_hoc_new/elevators_2/SGBT(ARF).csv",
+      "record_path": "results/raw/B1-a/elevators/SGBT(ARFReg(FIRTDD))/seed=2.json"
+    },
+    {
+      "exp": "B1-a",
+      "dataset": "elevators",
+      "method_key": "SGBT(ARFReg(FIRTDD))",
+      "seed": 3,
+      "ref_source": "exp/post_hoc_new/elevators_3/SGBT(ARF).csv",
+      "record_path": "results/raw/B1-a/elevators/SGBT(ARFReg(FIRTDD))/seed=3.json"
+    },
+    {
+      "exp": "B1-a",
+      "dataset": "elevators",
+      "method_key": "SGBT(ARFReg(FIRTDD))",
+      "seed": 4,
+      "ref_source": "exp/post_hoc_new/elevators_4/SGBT(ARF).csv",
+      "record_path": "results/raw/B1-a/elevators/SGBT(ARFReg(FIRTDD))/seed=4.json"
+    },
+    {
+      "exp": "B1-a",
+      "dataset": "elevators",
+      "method_key": "SGBT(ARFReg(FIRTDD))",
+      "seed": 5,
+      "ref_source": "exp/post_hoc_new/elevators_5/SGBT(ARF).csv",
+      "record_path": "results/raw/B1-a/elevators/SGBT(ARFReg(FIRTDD))/seed=5.json"
+    },
+    {
+      "exp": "B1-a",
+      "dataset": "elevators",
+      "method_key": "Oza(FIRTDD)",
+      "seed": 1,
+      "ref_source": "exp/post_hoc_new/elevators_1/OzaReg.csv",
+      "record_path": "results/raw/B1-a/elevators/Oza(FIRTDD)/seed=1.json"
+    },
+    {
+      "exp": "B1-a",
+      "dataset": "elevators",
+      "method_key": "Oza(FIRTDD)",
+      "seed": 2,
+      "ref_source": "exp/post_hoc_new/elevators_2/OzaReg.csv",
+      "record_path": "results/raw/B1-a/elevators/Oza(FIRTDD)/seed=2.json"
+    },
+    {
+      "exp": "B1-a",
+      "dataset": "elevators",
+      "method_key": "Oza(FIRTDD)",
+      "seed": 3,
+      "ref_source": "exp/post_hoc_new/elevators_3/OzaReg.csv",
+      "record_path": "results/raw/B1-a/elevators/Oza(FIRTDD)/seed=3.json"
+    },
+    {
+      "exp": "B1-a",
+      "dataset": "elevators",
+      "method_key": "Oza(FIRTDD)",
+      "seed": 4,
+      "ref_source": "exp/post_hoc_new/elevators_4/OzaReg.csv",
+      "record_path": "results/raw/B1-a/elevators/Oza(FIRTDD)/seed=4.json"
+    },
+    {
+      "exp": "B1-a",
+      "dataset": "elevators",
+      "method_key": "Oza(FIRTDD)",
+      "seed": 5,
+      "ref_source": "exp/post_hoc_new/elevators_5/OzaReg.csv",
+      "record_path": "results/raw/B1-a/elevators/Oza(FIRTDD)/seed=5.json"
+    },
+    {
+      "exp": "B1-a",
+      "dataset": "elevators",
+      "method_key": "ARFReg(FIRTDD)",
+      "seed": 1,
+      "ref_source": "exp/post_hoc_new/elevators_1/ARFReg.csv",
+      "record_path": "results/raw/B1-a/elevators/ARFReg(FIRTDD)/seed=1.json"
+    },
+    {
+      "exp": "B1-a",
+      "dataset": "elevators",
+      "method_key": "ARFReg(FIRTDD)",
+      "seed": 2,
+      "ref_source": "exp/post_hoc_new/elevators_2/ARFReg.csv",
+      "record_path": "results/raw/B1-a/elevators/ARFReg(FIRTDD)/seed=2.json"
+    },
+    {
+      "exp": "B1-a",
+      "dataset": "elevators",
+      "method_key": "ARFReg(FIRTDD)",
+      "seed": 3,
+      "ref_source": "exp/post_hoc_new/elevators_3/ARFReg.csv",
+      "record_path": "results/raw/B1-a/elevators/ARFReg(FIRTDD)/seed=3.json"
+    },
+    {
+      "exp": "B1-a",
+      "dataset": "elevators",
+      "method_key": "ARFReg(FIRTDD)",
+      "seed": 4,
+      "ref_source": "exp/post_hoc_new/elevators_4/ARFReg.csv",
+      "record_path": "results/raw/B1-a/elevators/ARFReg(FIRTDD)/seed=4.json"
+    },
+    {
+      "exp": "B1-a",
+      "dataset": "elevators",
+      "method_key": "ARFReg(FIRTDD)",
+      "seed": 5,
+      "ref_source": "exp/post_hoc_new/elevators_5/ARFReg.csv",
+      "record_path": "results/raw/B1-a/elevators/ARFReg(FIRTDD)/seed=5.json"
+    },
+    {
+      "exp": "B1-a",
+      "dataset": "elevators",
+      "method_key": "SOKNL(FIRTDD)",
+      "seed": 1,
+      "ref_source": "exp/post_hoc_new/elevators_1/SOKNL.csv",
+      "record_path": "results/raw/B1-a/elevators/SOKNL(FIRTDD)/seed=1.json"
+    },
+    {
+      "exp": "B1-a",
+      "dataset": "elevators",
+      "method_key": "SOKNL(FIRTDD)",
+      "seed": 2,
+      "ref_source": "exp/post_hoc_new/elevators_2/SOKNL.csv",
+      "record_path": "results/raw/B1-a/elevators/SOKNL(FIRTDD)/seed=2.json"
+    },
+    {
+      "exp": "B1-a",
+      "dataset": "elevators",
+      "method_key": "SOKNL(FIRTDD)",
+      "seed": 3,
+      "ref_source": "exp/post_hoc_new/elevators_3/SOKNL.csv",
+      "record_path": "results/raw/B1-a/elevators/SOKNL(FIRTDD)/seed=3.json"
+    },
+    {
+      "exp": "B1-a",
+      "dataset": "elevators",
+      "method_key": "SOKNL(FIRTDD)",
+      "seed": 4,
+      "ref_source": "exp/post_hoc_new/elevators_4/SOKNL.csv",
+      "record_path": "results/raw/B1-a/elevators/SOKNL(FIRTDD)/seed=4.json"
+    },
+    {
+      "exp": "B1-a",
+      "dataset": "elevators",
+      "method_key": "SOKNL(FIRTDD)",
+      "seed": 5,
+      "ref_source": "exp/post_hoc_new/elevators_5/SOKNL.csv",
+      "record_path": "results/raw/B1-a/elevators/SOKNL(FIRTDD)/seed=5.json"
+    },
+    {
+      "exp": "B1-b",
+      "dataset": "abalone",
+      "method_key": "Oza(SGBT(FIRTDD))",
+      "seed": 1,
+      "ref_source": "results/raw/B1-a/abalone/Oza(SGBT(FIRTDD))/seed=1.json",
+      "record_path": "results/raw/B1-b/abalone/Oza(SGBT(FIRTDD))/seed=1.json"
+    },
+    {
+      "exp": "B1-b",
+      "dataset": "abalone",
+      "method_key": "SGBT(Oza(FIRTDD))",
+      "seed": 1,
+      "ref_source": "results/raw/B1-a/abalone/SGBT(Oza(FIRTDD))/seed=1.json",
+      "record_path": "results/raw/B1-b/abalone/SGBT(Oza(FIRTDD))/seed=1.json"
+    },
+    {
+      "exp": "B1-b",
+      "dataset": "abalone",
+      "method_key": "SGBT(ARFReg(FIRTDD))",
+      "seed": 1,
+      "ref_source": "results/raw/B1-a/abalone/SGBT(ARFReg(FIRTDD))/seed=1.json",
+      "record_path": "results/raw/B1-b/abalone/SGBT(ARFReg(FIRTDD))/seed=1.json"
+    },
+    {
+      "exp": "B1-b",
+      "dataset": "abalone",
+      "method_key": "Oza(FIRTDD)",
+      "seed": 1,
+      "ref_source": "results/raw/B1-a/abalone/Oza(FIRTDD)/seed=1.json",
+      "record_path": "results/raw/B1-b/abalone/Oza(FIRTDD)/seed=1.json"
+    },
+    {
+      "exp": "B1-b",
+      "dataset": "abalone",
+      "method_key": "ARFReg(FIRTDD)",
+      "seed": 1,
+      "ref_source": "results/raw/B1-a/abalone/ARFReg(FIRTDD)/seed=1.json",
+      "record_path": "results/raw/B1-b/abalone/ARFReg(FIRTDD)/seed=1.json"
+    },
+    {
+      "exp": "B1-b",
+      "dataset": "abalone",
+      "method_key": "SOKNL(FIRTDD)",
+      "seed": 1,
+      "ref_source": "results/raw/B1-a/abalone/SOKNL(FIRTDD)/seed=1.json",
+      "record_path": "results/raw/B1-b/abalone/SOKNL(FIRTDD)/seed=1.json"
+    },
+    {
+      "exp": "B1-b",
+      "dataset": "bike",
+      "method_key": "Oza(SGBT(FIRTDD))",
+      "seed": 1,
+      "ref_source": "results/raw/B1-a/bike/Oza(SGBT(FIRTDD))/seed=1.json",
+      "record_path": "results/raw/B1-b/bike/Oza(SGBT(FIRTDD))/seed=1.json"
+    },
+    {
+      "exp": "B1-b",
+      "dataset": "bike",
+      "method_key": "SGBT(Oza(FIRTDD))",
+      "seed": 1,
+      "ref_source": "results/raw/B1-a/bike/SGBT(Oza(FIRTDD))/seed=1.json",
+      "record_path": "results/raw/B1-b/bike/SGBT(Oza(FIRTDD))/seed=1.json"
+    },
+    {
+      "exp": "B1-b",
+      "dataset": "bike",
+      "method_key": "SGBT(ARFReg(FIRTDD))",
+      "seed": 1,
+      "ref_source": "results/raw/B1-a/bike/SGBT(ARFReg(FIRTDD))/seed=1.json",
+      "record_path": "results/raw/B1-b/bike/SGBT(ARFReg(FIRTDD))/seed=1.json"
+    },
+    {
+      "exp": "B1-b",
+      "dataset": "bike",
+      "method_key": "Oza(FIRTDD)",
+      "seed": 1,
+      "ref_source": "results/raw/B1-a/bike/Oza(FIRTDD)/seed=1.json",
+      "record_path": "results/raw/B1-b/bike/Oza(FIRTDD)/seed=1.json"
+    },
+    {
+      "exp": "B1-b",
+      "dataset": "bike",
+      "method_key": "ARFReg(FIRTDD)",
+      "seed": 1,
+      "ref_source": "results/raw/B1-a/bike/ARFReg(FIRTDD)/seed=1.json",
+      "record_path": "results/raw/B1-b/bike/ARFReg(FIRTDD)/seed=1.json"
+    },
+    {
+      "exp": "B1-b",
+      "dataset": "bike",
+      "method_key": "SOKNL(FIRTDD)",
+      "seed": 1,
+      "ref_source": "results/raw/B1-a/bike/SOKNL(FIRTDD)/seed=1.json",
+      "record_path": "results/raw/B1-b/bike/SOKNL(FIRTDD)/seed=1.json"
+    },
+    {
+      "exp": "B1-b",
+      "dataset": "elevators",
+      "method_key": "Oza(SGBT(FIRTDD))",
+      "seed": 1,
+      "ref_source": "results/raw/B1-a/elevators/Oza(SGBT(FIRTDD))/seed=1.json",
+      "record_path": "results/raw/B1-b/elevators/Oza(SGBT(FIRTDD))/seed=1.json"
+    },
+    {
+      "exp": "B1-b",
+      "dataset": "elevators",
+      "method_key": "SGBT(Oza(FIRTDD))",
+      "seed": 1,
+      "ref_source": "results/raw/B1-a/elevators/SGBT(Oza(FIRTDD))/seed=1.json",
+      "record_path": "results/raw/B1-b/elevators/SGBT(Oza(FIRTDD))/seed=1.json"
+    },
+    {
+      "exp": "B1-b",
+      "dataset": "elevators",
+      "method_key": "SGBT(ARFReg(FIRTDD))",
+      "seed": 1,
+      "ref_source": "results/raw/B1-a/elevators/SGBT(ARFReg(FIRTDD))/seed=1.json",
+      "record_path": "results/raw/B1-b/elevators/SGBT(ARFReg(FIRTDD))/seed=1.json"
+    },
+    {
+      "exp": "B1-b",
+      "dataset": "elevators",
+      "method_key": "Oza(FIRTDD)",
+      "seed": 1,
+      "ref_source": "results/raw/B1-a/elevators/Oza(FIRTDD)/seed=1.json",
+      "record_path": "results/raw/B1-b/elevators/Oza(FIRTDD)/seed=1.json"
+    },
+    {
+      "exp": "B1-b",
+      "dataset": "elevators",
+      "method_key": "ARFReg(FIRTDD)",
+      "seed": 1,
+      "ref_source": "results/raw/B1-a/elevators/ARFReg(FIRTDD)/seed=1.json",
+      "record_path": "results/raw/B1-b/elevators/ARFReg(FIRTDD)/seed=1.json"
+    },
+    {
+      "exp": "B1-b",
+      "dataset": "elevators",
+      "method_key": "SOKNL(FIRTDD)",
+      "seed": 1,
+      "ref_source": "results/raw/B1-a/elevators/SOKNL(FIRTDD)/seed=1.json",
+      "record_path": "results/raw/B1-b/elevators/SOKNL(FIRTDD)/seed=1.json"
+    },
+    {
+      "exp": "B1-c-r1",
+      "dataset": "abalone",
+      "method_key": "FIRTDD",
+      "seed": null,
+      "ref_source": "results/raw/B1-c-r2/abalone/FIRTDD/seed=none.json",
+      "record_path": "results/raw/B1-c-r1/abalone/FIRTDD/seed=none.json"
+    },
+    {
+      "exp": "B1-c-r1",
+      "dataset": "abalone",
+      "method_key": "HT",
+      "seed": null,
+      "ref_source": "results/raw/B1-c-r2/abalone/HT/seed=none.json",
+      "record_path": "results/raw/B1-c-r1/abalone/HT/seed=none.json"
+    },
+    {
+      "exp": "B1-c-r1",
+      "dataset": "bike",
+      "method_key": "FIRTDD",
+      "seed": null,
+      "ref_source": "results/raw/B1-c-r2/bike/FIRTDD/seed=none.json",
+      "record_path": "results/raw/B1-c-r1/bike/FIRTDD/seed=none.json"
+    },
+    {
+      "exp": "B1-c-r1",
+      "dataset": "bike",
+      "method_key": "HT",
+      "seed": null,
+      "ref_source": "results/raw/B1-c-r2/bike/HT/seed=none.json",
+      "record_path": "results/raw/B1-c-r1/bike/HT/seed=none.json"
+    },
+    {
+      "exp": "B1-c-r1",
+      "dataset": "elevators",
+      "method_key": "FIRTDD",
+      "seed": null,
+      "ref_source": "results/raw/B1-c-r2/elevators/FIRTDD/seed=none.json",
+      "record_path": "results/raw/B1-c-r1/elevators/FIRTDD/seed=none.json"
+    },
+    {
+      "exp": "B1-c-r1",
+      "dataset": "elevators",
+      "method_key": "HT",
+      "seed": null,
+      "ref_source": "results/raw/B1-c-r2/elevators/HT/seed=none.json",
+      "record_path": "results/raw/B1-c-r1/elevators/HT/seed=none.json"
+    },
+    {
+      "exp": "B1-c-r2",
+      "dataset": "abalone",
+      "method_key": "FIRTDD",
+      "seed": null,
+      "ref_source": "results/raw/B1-c-r1/abalone/FIRTDD/seed=none.json",
+      "record_path": "results/raw/B1-c-r2/abalone/FIRTDD/seed=none.json"
+    },
+    {
+      "exp": "B1-c-r2",
+      "dataset": "abalone",
+      "method_key": "HT",
+      "seed": null,
+      "ref_source": "results/raw/B1-c-r1/abalone/HT/seed=none.json",
+      "record_path": "results/raw/B1-c-r2/abalone/HT/seed=none.json"
+    },
+    {
+      "exp": "B1-c-r2",
+      "dataset": "bike",
+      "method_key": "FIRTDD",
+      "seed": null,
+      "ref_source": "results/raw/B1-c-r1/bike/FIRTDD/seed=none.json",
+      "record_path": "results/raw/B1-c-r2/bike/FIRTDD/seed=none.json"
+    },
+    {
+      "exp": "B1-c-r2",
+      "dataset": "bike",
+      "method_key": "HT",
+      "seed": null,
+      "ref_source": "results/raw/B1-c-r1/bike/HT/seed=none.json",
+      "record_path": "results/raw/B1-c-r2/bike/HT/seed=none.json"
+    },
+    {
+      "exp": "B1-c-r2",
+      "dataset": "elevators",
+      "method_key": "FIRTDD",
+      "seed": null,
+      "ref_source": "results/raw/B1-c-r1/elevators/FIRTDD/seed=none.json",
+      "record_path": "results/raw/B1-c-r2/elevators/FIRTDD/seed=none.json"
+    },
+    {
+      "exp": "B1-c-r2",
+      "dataset": "elevators",
+      "method_key": "HT",
+      "seed": null,
+      "ref_source": "results/raw/B1-c-r1/elevators/HT/seed=none.json",
+      "record_path": "results/raw/B1-c-r2/elevators/HT/seed=none.json"
+    }
+  ],
+  "read_only_comparison": {
+    "exp": "B1-d",
+    "dataset": "NZEnergy",
+    "seed": 1,
+    "ref_source": "exp/post_hoc_new/NZEnergy_1/SGBT(ARF).csv"
+  }
+}
