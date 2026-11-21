@@ -52,6 +52,25 @@ class E1MemoryFeasibilityTest(unittest.TestCase):
                         self.assertEqual(result["exit_code"], 1)
                         self.assertTrue(result["oom"]["java_reported"])
 
+    def test_initial_checkpoint_survives_timeout_before_first_poll_sample(self):
+        with TemporaryDirectory() as directory:
+            work = Path(directory)
+            manifest = work / "manifest.json"
+            result = {
+                "command": [sys.executable, "-c", "import time; time.sleep(10)"],
+                "dataset": {"expected_instances": 8},
+            }
+            # Simulate child startup taking longer than the entire timeout.
+            with patch("e1_memory_feasibility.time.monotonic", side_effect=[0.0, 1.0, 1.0]):
+                measure_java(manifest, result, work, {"limits": []}, 0.001, os.environ)
+
+            checkpoint = json.loads(manifest.read_text())
+            self.assertEqual(checkpoint["status"], "running")
+            self.assertEqual(checkpoint["java_pid"], result["java_pid"])
+            self.assertEqual(result["status"], "timed_out")
+            self.assertEqual(result["termination_signal"], signal.SIGKILL)
+            self.assertFalse(result["oom"]["java_reported"])
+
     def test_preserves_existing_cgroup_peak_and_counts_new_oom_events(self):
         with TemporaryDirectory() as directory:
             group = Path(directory)

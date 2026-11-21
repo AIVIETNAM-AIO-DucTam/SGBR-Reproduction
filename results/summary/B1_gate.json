@@ -1,0 +1,117 @@
+{
+  "verdict": "Incomplete",
+  "completed_b1_runs": 0,
+  "scheduled_b1_runs": 120,
+  "blockers": [],
+  "serial_slowdown_by_cpu": [],
+  "seed_differences": [
+    {
+      "dataset": "abalone",
+      "method_key": "Oza(SGBT(FIRTDD))",
+      "contrasts": [],
+      "all_match_at_1e_6": null
+    },
+    {
+      "dataset": "abalone",
+      "method_key": "SGBT(Oza(FIRTDD))",
+      "contrasts": [],
+      "all_match_at_1e_6": null
+    },
+    {
+      "dataset": "abalone",
+      "method_key": "SGBT(ARFReg(FIRTDD))",
+      "contrasts": [],
+      "all_match_at_1e_6": null
+    },
+    {
+      "dataset": "abalone",
+      "method_key": "Oza(FIRTDD)",
+      "contrasts": [],
+      "all_match_at_1e_6": null
+    },
+    {
+      "dataset": "abalone",
+      "method_key": "ARFReg(FIRTDD)",
+      "contrasts": [],
+      "all_match_at_1e_6": null
+    },
+    {
+      "dataset": "abalone",
+      "method_key": "SOKNL(FIRTDD)",
+      "contrasts": [],
+      "all_match_at_1e_6": null
+    },
+    {
+      "dataset": "bike",
+      "method_key": "Oza(SGBT(FIRTDD))",
+      "contrasts": [],
+      "all_match_at_1e_6": null
+    },
+    {
+      "dataset": "bike",
+      "method_key": "SGBT(Oza(FIRTDD))",
+      "contrasts": [],
+      "all_match_at_1e_6": null
+    },
+    {
+      "dataset": "bike",
+      "method_key": "SGBT(ARFReg(FIRTDD))",
+      "contrasts": [],
+      "all_match_at_1e_6": null
+    },
+    {
+      "dataset": "bike",
+      "method_key": "Oza(FIRTDD)",
+      "contrasts": [],
+      "all_match_at_1e_6": null
+    },
+    {
+      "dataset": "bike",
+      "method_key": "ARFReg(FIRTDD)",
+      "contrasts": [],
+      "all_match_at_1e_6": null
+    },
+    {
+      "dataset": "bike",
+      "method_key": "SOKNL(FIRTDD)",
+      "contrasts": [],
+      "all_match_at_1e_6": null
+    },
+    {
+      "dataset": "elevators",
+      "method_key": "Oza(SGBT(FIRTDD))",
+      "contrasts": [],
+      "all_match_at_1e_6": null
+    },
+    {
+      "dataset": "elevators",
+      "method_key": "SGBT(Oza(FIRTDD))",
+      "contrasts": [],
+      "all_match_at_1e_6": null
+    },
+    {
+      "dataset": "elevators",
+      "method_key": "SGBT(ARFReg(FIRTDD))",
+      "contrasts": [],
+      "all_match_at_1e_6": null
+    },
+    {
+      "dataset": "elevators",
+      "method_key": "Oza(FIRTDD)",
+      "contrasts": [],
+      "all_match_at_1e_6": null
+    },
+    {
+      "dataset": "elevators",
+      "method_key": "ARFReg(FIRTDD)",
+      "contrasts": [],
+      "all_match_at_1e_6": null
+    },
+    {
+      "dataset": "elevators",
+      "method_key": "SOKNL(FIRTDD)",
+      "contrasts": [],
+      "all_match_at_1e_6": null
+    }
+  ]
+}

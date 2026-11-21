@@ -219,7 +219,7 @@ def monitor_sample(result, groups, pid, elapsed, progress):
     }
 
 
-def display_progress(sample):
+def display_progress(sample, label="E1"):
     elapsed = time.strftime("%H:%M:%S", time.gmtime(sample["wall_clock_seconds"]))
     progress = sample["latest_progress_percent"]
     progress_label = "waiting for MOA" if progress is None else f"{progress:.2f}%"
@@ -230,13 +230,14 @@ def display_progress(sample):
         return "unavailable" if value is None else f"{value / 1024**3:.2f} GiB"
 
     print(
-        f"[{elapsed}] E1 running | Progress: {progress_label} | "
+        f"[{elapsed}] {label} running | Progress: {progress_label} | "
         f"Java RSS: {gib(sample['java_rss_bytes'])} | cgroup: {gib(current)}",
         flush=True,
     )
 
 
-def measure_java(manifest, result, work, groups, timeout, env, progress_interval=30):
+def measure_java(manifest, result, work, groups, timeout, env, progress_interval=30, *,
+                 progress_label="E1", pass_fds=()):
     result["memory_cgroup_before"] = memory_snapshot(groups)
     started = time.monotonic()
     checkpoint = started
@@ -246,11 +247,12 @@ def measure_java(manifest, result, work, groups, timeout, env, progress_interval
           (work / "java.log").open("rb") as progress_log,
           (work / "resource_monitor.jsonl").open("w", encoding="utf-8", buffering=1) as monitor):
         process = subprocess.Popen(
-            result["command"], cwd=work, stdout=log, stderr=subprocess.STDOUT, env=env,
+            result["command"], cwd=work, stdout=log, stderr=subprocess.STDOUT, env=env, pass_fds=pass_fds,
         )
         result.update(status="running", java_pid=process.pid)
         pid = 0
         try:
+            save_manifest(manifest, result)
             while True:
                 pid, wait_status, usage = os.wait4(process.pid, os.WNOHANG)
                 if pid:
@@ -265,7 +267,7 @@ def measure_java(manifest, result, work, groups, timeout, env, progress_interval
                     result.update(sample)
                     monitor.write(json.dumps({"status": "running", **sample}) + "\n")
                     save_manifest(manifest, result)
-                    display_progress(sample)
+                    display_progress(sample, progress_label)
                     checkpoint = now + progress_interval
                 time.sleep(0.5)
         except KeyboardInterrupt:
