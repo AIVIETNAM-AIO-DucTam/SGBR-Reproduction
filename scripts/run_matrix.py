@@ -65,7 +65,12 @@ def parse_xmx(spec):
     return mapping
 
 
-def build_command(config, learner, seed_flag, seed, java, jar, xmx):
+def heap_bytes(size):
+    units = {"k": 2**10, "m": 2**20, "g": 2**30}
+    return int(size[:-1]) * units[size[-1].lower()] if size[-1].lower() in units else int(size)
+
+
+def build_command(config, learner, seed_flag, seed, java, jar, xmx, exit_on_oom=False):
     if seed_flag and seed is not None:
         learner = f"{learner} -{seed_flag} {seed}"
     jvm = config["java_options"].split()
@@ -74,6 +79,10 @@ def build_command(config, learner, seed_flag, seed, java, jar, xmx):
         raise ValueError("Expected exactly one -Xmx option in the authors' java_options")
     paper_xmx = jvm[heap[0]]
     jvm[heap[0]] = f"-Xmx{xmx}"
+    if exit_on_oom:
+        # Operational flag only: stop the JVM at the first OutOfMemoryError instead of letting MOA
+        # catch it and keep thrashing the garbage collector for hours.
+        jvm.insert(heap[0] + 1, "-XX:+ExitOnOutOfMemoryError")
     task = f'{config["evaluator"]} -s (ArffFileStream -f stream.arff) -l ({learner}) -d evaluation.csv'
     return [java, "-classpath", str(jar), *jvm, task], paper_xmx
 
@@ -118,11 +127,14 @@ def run_cell(cell, args, config, config_hash, data, jar_sha):
     folder = args.results / "raw" / exp / dataset / method / f"seed={seed_label}"
     record_path = folder / "record.json"
     xmx = args.xmx.get(dataset, args.xmx["default"])
-    command, paper_xmx = build_command(config, learner, seed_flag, seed, args.java, args.jar, xmx)
+    command, paper_xmx = build_command(config, learner, seed_flag, seed, args.java, args.jar, xmx,
+                                       args.exit_on_oom)
     stream, evidence = data.get(dataset)
     # The jar digest is recorded but not hashed: Maven builds of the same pinned source are not
     # byte-reproducible, and every Kaggle session rebuilds the jar.
-    command_hash = hashlib.sha256(json.dumps([command, evidence["sha256"], config_hash]).encode()).hexdigest()
+    # The operational OOM flag is left out too, so resumed runs keep matching earlier records.
+    identity = [part for part in command if part != "-XX:+ExitOnOutOfMemoryError"]
+    command_hash = hashlib.sha256(json.dumps([identity, evidence["sha256"], config_hash]).encode()).hexdigest()
     if record_path.is_file():
         old = json.loads(record_path.read_text())
         if old.get("status") == "completed" and old.get("command_hash") == command_hash:
@@ -161,13 +173,22 @@ def run_cell(cell, args, config, config_hash, data, jar_sha):
         except (KeyError, ValueError):
             processed = None
     oom = e1.java_oom(folder)
+    if (not oom and process.returncode == 0 and processed is None
+            and peak is not None and peak >= 0.9 * heap_bytes(xmx)):
+        # MOA can catch OutOfMemoryError, print "null" and exit 0 without writing its CSV
+        # (observed for NZEnergy Sgb(Srp) at -Xmx6g). A heap-sized RSS with no output is an OOM.
+        oom = True
     if process.returncode == 0 and processed == evidence["expected_instances"] and not oom:
         status = "completed"
     elif oom:
         status = "oom"
     else:
         status = "failed"
+    with (folder / "java.log").open("rb") as handle:
+        handle.seek(max(0, (folder / "java.log").stat().st_size - 65536))
+        progress = e1.PROGRESS_PERCENT.findall(handle.read())
     record.update({
+        "last_progress_percent": float(progress[-1]) if progress else None,
         "finished_at": now(), "exit_code": process.returncode, "external_wall_seconds": elapsed,
         "peak_rss_bytes": peak, "processed_instances": processed, "status": status,
         "r2": float(row[R2]) if row and status == "completed" else None,
@@ -218,11 +239,15 @@ def main(argv=None):
     parser.add_argument("--seeds", nargs="+", type=int)
     parser.add_argument("--jobs", type=int, default=1)
     parser.add_argument("--xmx", type=parse_xmx, default=parse_xmx("default=4g"))
+    parser.add_argument("--exit-on-oom", action="store_true",
+                        help="Add -XX:+ExitOnOutOfMemoryError so an OOM ends the run immediately")
     parser.add_argument("--plan", choices=["e1-approved"],
                         help="e1-approved: all 13 repo datasets, Axgb only on Core-10 (H-01(d), H-01(f))")
     parser.add_argument("--shard", type=int, help="1-based shard index to run")
     parser.add_argument("--num-shards", type=int, default=1)
     parser.add_argument("--list", action="store_true", help="Print the shard plan and exit without running")
+    parser.add_argument("--skip-cells", nargs="+", default=[], metavar="DATASET:METHOD",
+                        help="Drop these (dataset, method) cells after sharding; other shards are unchanged")
     args = parser.parse_args(argv)
     if args.shard is not None and not 1 <= args.shard <= args.num_shards:
         parser.error("--shard must be between 1 and --num-shards")
@@ -259,6 +284,11 @@ def main(argv=None):
         if args.list:
             return 0
         cells = shards[args.shard - 1] if args.shard else cells
+    skip = {tuple(item.split(":", 1)) for item in args.skip_cells}
+    dropped = [c for c in cells if (c[1], c[2]) in skip]
+    if dropped:
+        log(f"Skipping {len(dropped)} cells run elsewhere: {sorted({(c[1], c[2]) for c in dropped})}")
+        cells = [c for c in cells if (c[1], c[2]) not in skip]
     cells.sort(key=lambda c: -estimated_seconds(c[2], c[1]))  # longest first
     with open("/proc/cpuinfo") as info:
         args.cpu_model = next((line.split(":", 1)[1].strip() for line in info if line.startswith("model name")), None)
